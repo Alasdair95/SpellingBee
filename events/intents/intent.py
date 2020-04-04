@@ -1,4 +1,3 @@
-import json
 
 from events.speechoutput.response import Response
 
