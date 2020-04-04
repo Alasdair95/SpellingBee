@@ -1,4 +1,3 @@
-import json
 
 from events.intents.intent import LaunchRequest, IntentRequest, SessionEndedRequest
 
