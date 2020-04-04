@@ -1,3 +1,4 @@
+import json
 
 from events.intents.intent import LaunchRequest, IntentRequest, SessionEndedRequest
 
@@ -16,7 +17,7 @@ class Event:
 
     def get_my_response(self):
         if self.request['type'] == 'LaunchRequest':
-            return LaunchRequest(self.request)
+            return LaunchRequest(self.request).get_welcome_response()
         elif self.request['type'] == 'IntentRequest':
             return IntentRequest(self.request)
         elif self.request['type'] == 'SessionEndedRequest':
