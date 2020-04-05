@@ -22,7 +22,11 @@ class Storage:
             return False
 
     def save_user_item(self, item):
-        self.client.put_item(Item=item, TableName='sb_users')
+        formatted_item = {
+            'userId': {'S': item['userId']},
+            'premium': {'BOOL': item['premium']}
+        }
+        self.client.put_item(Item=formatted_item, TableName='sb_users')
 
 
 # Uncomment to run configurations
@@ -34,10 +38,10 @@ if __name__ == '__main__':
     # storage.get_user_item()
 
     # Test save_user_item:
-    context = {'System': {'user': {'userId': 'abc124'}}}
+    context = {'System': {'user': {'userId': 'abc12'}}}
     user_item = {
-        'userId': {'S': context['System']['user']['userId']},
-        'premium': {'BOOL': False}
+        'userId': context['System']['user']['userId'],
+        'premium': False
     }
     storage = Storage(context)
     storage.save_user_item(user_item)
