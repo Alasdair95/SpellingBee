@@ -16,8 +16,8 @@ class Event:
 
         if not user_item:
             user_item = {
-                'userId': {'S': self.context['System']['user']['userId']},
-                'premium': {'BOOL': False}
+                'userId': self.context['System']['user']['userId'],
+                'premium': False
             }
             storage.save_user_item(user_item)
 
@@ -25,7 +25,8 @@ class Event:
 
     def get_my_response(self):
         if self.request['type'] == 'LaunchRequest':
-            return LaunchRequest(self.request).get_welcome_response()
+            user_item = self.get_user_item_from_dynamodb()
+            return LaunchRequest(self.request, user_item).get_welcome_response()
         elif self.request['type'] == 'IntentRequest':
             return IntentRequest(self.request)
         elif self.request['type'] == 'SessionEndedRequest':
