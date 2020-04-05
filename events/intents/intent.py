@@ -10,7 +10,7 @@ class LaunchRequest:
 
         response_components = {
             'output_speech': 'Welcome to spelling bee! What difficulty would you like; easy,\
-                             medium,c or hard?',
+                             medium, or hard?',
             'card': '',
             'reprompt_text': 'Pick easy, medium, or hard to get your first word.',
             'should_end_session': False,
