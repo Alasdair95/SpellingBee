@@ -17,7 +17,7 @@ class Storage:
         table = 'sb_users'
         response = self.client.get_item(Key=key, TableName=table)
         if 'Item' in response.keys():
-            return response
+            return response['Item']
         else:
             return False
 
