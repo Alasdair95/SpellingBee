@@ -28,7 +28,7 @@ class Event:
             user_item = self.get_user_item_from_dynamodb()
             return LaunchRequest(self.request, user_item).get_welcome_response()
         elif self.request['type'] == 'IntentRequest':
-            return IntentRequest(self.request)
+            return IntentRequest(self.request, self.session).return_response()
         elif self.request['type'] == 'SessionEndedRequest':
             return SessionEndedRequest(self.request)
         else:
