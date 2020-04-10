@@ -32,13 +32,15 @@ class IntentRequest:
         self.session_attributes = session['attributes']
         self.intent_mapping = {
             'difficultyLevel': self.get_first_word_of_session(),
-            'letterAttempt': self.handle_word_spelling()
+            'letterAttempt': self.handle_word_spelling(),
+            'newWord': self.get_new_word()
         }
 
     def return_response(self):
         intent_triggered = self.request['intent']['name']
-        # TODO: Add handle_bad_request as the default function when you've built it
-        return self.intent_mapping.get(intent_triggered)
+        # This is where the check for whether the user is premium needs to go
+        # If user is not premium we will return another function I need to write - user_not_premium_response
+        return self.intent_mapping.get(intent_triggered, self.handle_bad_request())
 
     def handle_bad_request(self):
         response_components = {
@@ -137,6 +139,47 @@ class IntentRequest:
                 }
                 return Response(response_components).build_response()
 
+    def get_new_word(self):
+        slot_dict = self.request['intent']['slots'].get('YesNo', None)
+
+        if not slot_dict:
+            self.handle_bad_request()
+        else:
+            slot_value = slot_dict['value']
+
+            if slot_value == 'yes':
+                if self.session_attributes['difficulty_level'] == 'easy':
+                    word_list = easy
+                elif self.session_attributes['difficulty_level'] == 'medium':
+                    word_list = medium
+                elif self.session_attributes['difficulty_level'] == 'hard':
+                    word_list = hard
+                else:  # TODO: Handle anything that gets to here with handle_bad_request when built
+                    pass
+
+                word = word_list[random.randint(0, len(word_list) - 1)]
+
+                self.session_attributes['word'] = word.lower()
+                self.session_attributes['attempt_number'] = 0
+
+                word_letter_list = [i for i in word]
+                count = 1
+
+                for letter in word_letter_list:
+                    self.session_attributes[f'letter_{count}'] = letter
+                    count += 1
+
+                response_components = {
+                    'output_speech': f'Your word is {word}',
+                    'card': '',
+                    'reprompt_text': f'Your word is {word}',
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
+            else:
+                pass
+
 
 class SessionEndedRequest:
     def __init__(self, request, session):
@@ -146,7 +189,7 @@ class SessionEndedRequest:
     def end_session(self):
         self.session_attributes['output_type'] = 'speech'
         response_components = {
-            'output_speech': 'Goodbye',
+            'output_speech': 'Thanks for playing Spelling Bee!',
             'card': '',
             'reprompt_text': None,
             'should_end_session': True,
