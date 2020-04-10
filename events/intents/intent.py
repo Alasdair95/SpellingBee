@@ -2,6 +2,8 @@
 import random
 
 from my_words import *
+
+from apis.wordsapi import WordsApi
 from events.speechoutput.response import Response
 
 
@@ -31,16 +33,17 @@ class IntentRequest:
         self.request = request
         self.session_attributes = session['attributes']
         self.intent_mapping = {
-            'difficultyLevel': self.get_first_word_of_session(),
-            'letterAttempt': self.handle_word_spelling(),
-            'newWord': self.get_new_word()
+            'difficultyLevel': self.get_first_word_of_session,
+            'letterAttempt': self.handle_word_spelling,
+            'newWord': self.get_new_word,
+            'getWordDefinition': self.get_word_definition
         }
 
     def return_response(self):
         intent_triggered = self.request['intent']['name']
         # This is where the check for whether the user is premium needs to go
         # If user is not premium we will return another function I need to write - user_not_premium_response
-        return self.intent_mapping.get(intent_triggered, self.handle_bad_request())
+        return self.intent_mapping.get(intent_triggered, self.handle_bad_request())()
 
     def handle_bad_request(self):
         response_components = {
@@ -179,6 +182,10 @@ class IntentRequest:
                 return Response(response_components).build_response()
             else:
                 pass
+
+    def get_word_definition(self):
+        words_api = WordsApi(self.session_attributes)
+        return words_api.get_word_definition()
 
 
 class SessionEndedRequest:
