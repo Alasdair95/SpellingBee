@@ -30,7 +30,7 @@ class Event:
         elif self.request['type'] == 'IntentRequest':
             return IntentRequest(self.request, self.session).return_response()
         elif self.request['type'] == 'SessionEndedRequest':
-            return SessionEndedRequest(self.request)
+            return SessionEndedRequest(self.request, self.session).end_session()
         else:
             # TODO: Handle anything that makes it to here
             pass
