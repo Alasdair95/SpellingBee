@@ -18,16 +18,31 @@ class WordsApi:
 
     def get_word_definition(self):
         url = self.url_base + self.session_attributes['word'] + '/definitions'
-
         api_response = requests.get(url, headers=self.headers).json()
-
         definitions = api_response.get('definitions', None)
 
         if definitions:
             definition = definitions[random.randint(0, len(definitions)-1)]['definition']
 
             response_components = {
-                'output_speech': f"One definition for the word {self.session_attributes['word']} is {definition}.",
+                'output_speech': f"One definition for the word {self.session_attributes['word']} is: {definition}.",
+                'card': '',
+                'reprompt_text': None,
+                'should_end_session': False,
+                'session_attributes': self.session_attributes
+            }
+            return Response(response_components).build_response()
+
+    def get_example_sentence(self):
+        url = self.url_base + self.session_attributes['word'] + '/examples'
+        api_response = requests.get(url, headers=self.headers).json()
+        example_sentences = api_response.get('examples', None)
+
+        if example_sentences:
+            example = example_sentences[random.randint(0, len(example_sentences)-1)]
+
+            response_components = {
+                'output_speech': f"Here's your example sentence: {example}.",
                 'card': '',
                 'reprompt_text': None,
                 'should_end_session': False,
@@ -36,7 +51,7 @@ class WordsApi:
             return Response(response_components).build_response()
 
 
-# if __name__ == '__main__':
-#     session_attributes = {'attributes': {'word': 'dog'}}
-#     words_api = WordsApi(session_attributes)
-#     words_api.get_word_definition()
+if __name__ == '__main__':
+    session_attributes = {'word': 'dog'}
+    words_api = WordsApi(session_attributes)
+    words_api.get_example_sentence()

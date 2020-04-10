@@ -36,7 +36,8 @@ class IntentRequest:
             'difficultyLevel': self.get_first_word_of_session,
             'letterAttempt': self.handle_word_spelling,
             'newWord': self.get_new_word,
-            'getWordDefinition': self.get_word_definition
+            'getWordDefinition': self.get_word_definition,
+            'getExampleSentence': self.get_example_sentence
         }
 
     def return_response(self):
@@ -186,6 +187,10 @@ class IntentRequest:
     def get_word_definition(self):
         words_api = WordsApi(self.session_attributes)
         return words_api.get_word_definition()
+
+    def get_example_sentence(self):
+        words_api = WordsApi(self.session_attributes)
+        return words_api.get_example_sentence()
 
 
 class SessionEndedRequest:
