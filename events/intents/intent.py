@@ -33,6 +33,10 @@ class IntentRequest:
         self.request = request
         self.session_attributes = session['attributes']
         self.intent_mapping = {
+            'AMAZON.FallbackIntent': self.handle_bad_request,
+            'AMAZON.CancelIntent': self.end_session,
+            'AMAZON.StopIntent': self.end_session,
+            'AMAZON.HelpIntent': self.help_request,
             'difficultyLevel': self.get_first_word_of_session,
             'letterAttempt': self.handle_word_spelling,
             'newWord': self.get_new_word,
@@ -191,6 +195,28 @@ class IntentRequest:
     def get_example_sentence(self):
         words_api = WordsApi(self.session_attributes)
         return words_api.get_example_sentence()
+
+    def help_request(self):
+        self.session_attributes['output_type'] = 'speech'
+        response_components = {
+            'output_speech': 'Say easy, medium, or hard, to pick the level of difficulty and get a new word.',
+            'card': '',
+            'reprompt_text': None,
+            'should_end_session': True,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
+    def end_session(self):
+        self.session_attributes['output_type'] = 'speech'
+        response_components = {
+            'output_speech': 'Thanks for playing Spelling Bee! Goodbye!',
+            'card': '',
+            'reprompt_text': None,
+            'should_end_session': True,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
 
 
 class SessionEndedRequest:

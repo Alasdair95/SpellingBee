@@ -51,7 +51,7 @@ class WordsApi:
             return Response(response_components).build_response()
 
 
-if __name__ == '__main__':
-    session_attributes = {'word': 'dog'}
-    words_api = WordsApi(session_attributes)
-    words_api.get_example_sentence()
+# if __name__ == '__main__':
+#     session_attributes = {'word': 'dog'}
+#     words_api = WordsApi(session_attributes)
+#     words_api.get_example_sentence()
