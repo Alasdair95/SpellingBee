@@ -259,9 +259,9 @@ class ConnectionsResponse:
     def get_welcome_back_response(self):
 
         response_components = {
-            'output_speech': 'Thanks for buying premium, you now have access to all of the premium content.'
-                             'Ask Alexa to describe the premium content or say easy, medium, or hard, to start '
-                             'spelling again.',
+            'output_speech': 'Thanks for buying premium, you now have access to all of the premium content. '
+                             'Ask Alexa to describe the premium content or say easy, medium, or hard, to get'
+                             ' a word and start spelling again.',
             'card': '',
             'reprompt_text': 'Ask Alexa to describe the premium content.',
             'should_end_session': False,
