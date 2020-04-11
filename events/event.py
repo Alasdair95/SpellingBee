@@ -23,6 +23,10 @@ class Event:
 
         return user_item
 
+    def update_user_to_premium(self):
+        storage = Storage(self.context)
+        storage.update_user_to_premium()
+
     def get_my_response(self):
         if self.request['type'] == 'LaunchRequest':
             user_item = self.get_user_item_from_dynamodb()
@@ -33,6 +37,7 @@ class Event:
             return SessionEndedRequest(self.request, self.session).end_session()
         elif self.request['type'] == 'Connections.Response':
             user_item = self.get_user_item_from_dynamodb()
+            self.update_user_to_premium()
             return ConnectionsResponse(self.request, user_item).get_welcome_back_response()
         else:
             # TODO: Handle anything that makes it to here
