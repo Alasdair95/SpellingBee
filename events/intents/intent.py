@@ -4,6 +4,7 @@ import random
 from my_words import *
 
 from apis.wordsapi import WordsApi
+from apis.isp import InSkillPurchasing
 from events.speechoutput.response import Response
 
 
@@ -29,8 +30,9 @@ class LaunchRequest:
 
 
 class IntentRequest:
-    def __init__(self, request, session):
+    def __init__(self, request, session, context):
         self.request = request
+        self.context = context
         self.session_attributes = session['attributes']
         self.intent_mapping = {
             'AMAZON.FallbackIntent': self.handle_bad_request,
@@ -41,7 +43,9 @@ class IntentRequest:
             'letterAttempt': self.handle_word_spelling,
             'newWord': self.get_new_word,
             'getWordDefinition': self.get_word_definition,
-            'getExampleSentence': self.get_example_sentence
+            'getExampleSentence': self.get_example_sentence,
+            'listInSkillProducts': self.list_in_skill_products,
+            'buyPremium': self.buy_premium
         }
 
     def return_response(self):
@@ -218,6 +222,14 @@ class IntentRequest:
         }
         return Response(response_components).build_response()
 
+    def list_in_skill_products(self):
+        isp = InSkillPurchasing(self.context, self.request, self.session_attributes)
+        return isp.list_in_skill_products()
+
+    def buy_premium(self):
+        isp = InSkillPurchasing(self.context, self.request, self.session_attributes)
+        return isp.buy_premium()
+
 
 class SessionEndedRequest:
     def __init__(self, request, session):
@@ -231,6 +243,28 @@ class SessionEndedRequest:
             'card': '',
             'reprompt_text': None,
             'should_end_session': True,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
+
+class ConnectionsResponse:
+    def __init__(self, request, user_item):
+        self.request = request
+        self.session_attributes = {
+            'output_type': 'speech',
+            'user_item': user_item
+        }
+
+    def get_welcome_back_response(self):
+
+        response_components = {
+            'output_speech': 'Thanks for buying premium, you now have access to all of the premium content.'
+                             'Ask Alexa to describe the premium content or say easy, medium, or hard, to start '
+                             'spelling again.',
+            'card': '',
+            'reprompt_text': 'Ask Alexa to describe the premium content.',
+            'should_end_session': False,
             'session_attributes': self.session_attributes
         }
         return Response(response_components).build_response()
