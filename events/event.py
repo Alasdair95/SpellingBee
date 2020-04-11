@@ -1,5 +1,5 @@
 
-from events.intents.intent import LaunchRequest, IntentRequest, SessionEndedRequest
+from events.intents.intent import LaunchRequest, IntentRequest, SessionEndedRequest, ConnectionsResponse
 from database.storage import Storage
 
 
@@ -28,9 +28,12 @@ class Event:
             user_item = self.get_user_item_from_dynamodb()
             return LaunchRequest(self.request, user_item).get_welcome_response()
         elif self.request['type'] == 'IntentRequest':
-            return IntentRequest(self.request, self.session).return_response()
+            return IntentRequest(self.request, self.session, self.context).return_response()
         elif self.request['type'] == 'SessionEndedRequest':
             return SessionEndedRequest(self.request, self.session).end_session()
+        elif self.request['type'] == 'Connections.Response':
+            user_item = self.get_user_item_from_dynamodb()
+            return ConnectionsResponse(self.request, user_item).get_welcome_back_response()
         else:
             # TODO: Handle anything that makes it to here
             pass
