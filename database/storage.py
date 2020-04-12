@@ -65,7 +65,7 @@ class Storage:
 
 
 # Uncomment to run configurations
-if __name__ == '__main__':
+# if __name__ == '__main__':
 
     # Test get_user_item:
     # context = {'System': {'user': {'userId': 'abc124'}}}
@@ -82,7 +82,7 @@ if __name__ == '__main__':
     # storage.save_user_item(user_item)
 
     # Test update_user_to_premium
-    context = {'System': {'user': {'userId': 'test'}}}
-    storage = Storage(context)
-    storage.update_user_to_premium()
+    # context = {'System': {'user': {'userId': 'test'}}}
+    # storage = Storage(context)
+    # storage.update_user_to_premium()
 

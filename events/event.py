@@ -4,7 +4,6 @@ from database.storage import Storage
 
 
 class Event:
-
     def __init__(self, event):
         self.session = event['session']
         self.context = event['context']
@@ -40,8 +39,7 @@ class Event:
             self.update_user_to_premium()
             return ConnectionsResponse(self.request, user_item, self.context).get_welcome_back_response()
         else:
-            # TODO: Handle anything that makes it to here
-            pass
+            return IntentRequest(self.request, self.session, self.context).handle_bad_request()
 
 
 # if __name__ == '__main__':
