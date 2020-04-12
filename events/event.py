@@ -38,7 +38,7 @@ class Event:
         elif self.request['type'] == 'Connections.Response':
             user_item = self.get_user_item_from_dynamodb()
             self.update_user_to_premium()
-            return ConnectionsResponse(self.request, user_item).get_welcome_back_response()
+            return ConnectionsResponse(self.request, user_item, self.context).get_welcome_back_response()
         else:
             # TODO: Handle anything that makes it to here
             pass

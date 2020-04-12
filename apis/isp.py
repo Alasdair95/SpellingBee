@@ -41,6 +41,19 @@ class InSkillPurchasing:
             'reprompt_text': None,
             'should_end_session': True,
             'session_attributes': self.session_attributes,
-            'product_id': self.premium_product_id
+            'product_id': self.premium_product_id,
+            'directive': 'buy'
+        }
+        return Response(response_components).build_response()
+
+    def cancel_subscription(self):
+        response_components = {
+            'output_speech': None,
+            'card': '',
+            'reprompt_text': None,
+            'should_end_session': True,
+            'session_attributes': self.session_attributes,
+            'product_id': self.premium_product_id,
+            'directive': 'cancel'
         }
         return Response(response_components).build_response()
