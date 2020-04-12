@@ -310,24 +310,6 @@ class IntentRequest:
         return Response(response_components).build_response()
 
 
-class SessionEndedRequest:
-    def __init__(self):
-        self.session_attributes = {
-            'output_type': 'speech',
-        }
-
-    def end_session(self):
-        self.session_attributes['output_type'] = 'speech'
-        response_components = {
-            'output_speech': 'Thanks for playing Spelling Bee!',
-            'card': '',
-            'reprompt_text': None,
-            'should_end_session': True,
-            'session_attributes': self.session_attributes
-        }
-        return Response(response_components).build_response()
-
-
 class ConnectionsResponse:
     def __init__(self, request, user_item, context):
         self.request = request

@@ -1,5 +1,5 @@
 
-from events.intents.intent import LaunchRequest, IntentRequest, SessionEndedRequest, ConnectionsResponse
+from events.intents.intent import LaunchRequest, IntentRequest, ConnectionsResponse
 from database.storage import Storage
 
 
@@ -32,8 +32,6 @@ class Event:
             return LaunchRequest(self.request, user_item).get_welcome_response()
         elif self.request['type'] == 'IntentRequest':
             return IntentRequest(self.request, self.session, self.context).return_response()
-        elif self.request['type'] == 'SessionEndedRequest':
-            return SessionEndedRequest().end_session()
         elif self.request['type'] == 'Connections.Response':
             user_item = self.get_user_item_from_dynamodb()
             self.update_user_to_premium()
