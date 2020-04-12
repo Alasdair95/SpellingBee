@@ -11,7 +11,7 @@ class Event:
         self.request = event['request']
 
     def get_user_item_from_dynamodb(self):
-        storage = Storage(self.context)
+        storage = Storage(self.context, self.request)
         user_item = storage.get_user_item()
 
         if not user_item:
@@ -24,7 +24,7 @@ class Event:
         return user_item
 
     def update_user_to_premium(self):
-        storage = Storage(self.context)
+        storage = Storage(self.context, self.request)
         storage.update_user_to_premium()
 
     def get_my_response(self):
@@ -34,7 +34,7 @@ class Event:
         elif self.request['type'] == 'IntentRequest':
             return IntentRequest(self.request, self.session, self.context).return_response()
         elif self.request['type'] == 'SessionEndedRequest':
-            return SessionEndedRequest(self.request, self.session).end_session()
+            return SessionEndedRequest().end_session()
         elif self.request['type'] == 'Connections.Response':
             user_item = self.get_user_item_from_dynamodb()
             self.update_user_to_premium()

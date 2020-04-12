@@ -1,3 +1,4 @@
+
 import random
 
 from my_words import *
@@ -17,9 +18,16 @@ class LaunchRequest:
         }
 
     def get_welcome_response(self):
+        if 'name' in self.session_attributes['user_item'].keys():
+            name = self.session_attributes['user_item']['name']['S']
+            output_speech = f'Welcome back {name}! What difficulty would you like; easy,\
+                             medium, or hard?'
+        else:
+            output_speech = 'Welcome to spelling bee! What difficulty would you like; easy,\
+                             medium, or hard?'
+
         response_components = {
-            'output_speech': 'Welcome to spelling bee! What difficulty would you like; easy,\
-                             medium, or hard?',
+            'output_speech': output_speech,
             'card': '',
             'reprompt_text': 'Pick easy, medium, or hard to get your first word.',
             'should_end_session': False,
@@ -46,7 +54,8 @@ class IntentRequest:
             'listInSkillProducts': (self.list_in_skill_products, False),
             'buyPremium': (self.buy_premium, False),
             'describePremiumContent': (self.describe_premium_content, False),
-            'cancelSubscription': (self.cancel_subscription, True)
+            'cancelSubscription': (self.cancel_subscription, True),
+            'setUserName': (self.set_user_name, True)
         }
 
     def return_response(self):
@@ -296,11 +305,26 @@ class IntentRequest:
         isp = InSkillPurchasing(self.context, self.request, self.session_attributes)
         return isp.cancel_subscription()
 
+    def set_user_name(self):
+        storage = Storage(self.context, self.request)
+        storage.add_user_name()
+        name = self.request['intent']['slots']['UserName']['value']
+        self.session_attributes['name'] = name
+        response_components = {
+            'output_speech': f'Thank you {name}, you can now carry on as normal.',
+            'card': '',
+            'reprompt_text': None,
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
 
 class SessionEndedRequest:
-    def __init__(self, request, session):
-        self.request = request
-        self.session_attributes = session['attributes']
+    def __init__(self):
+        self.session_attributes = {
+            'output_type': 'speech',
+        }
 
     def end_session(self):
         self.session_attributes['output_type'] = 'speech'
@@ -325,13 +349,12 @@ class ConnectionsResponse:
 
     def get_welcome_back_response(self):
         if self.request['name'] == 'Buy':
-            storage = Storage(self.context)
+            storage = Storage(self.context, self.request)
             storage.update_user_to_premium()
             self.session_attributes['user_item']['premium']['BOOL'] = True
             response_components = {
                 'output_speech': 'Thanks for buying premium, you now have access to all of the premium content. '
-                                 'Ask Alexa to describe the premium content or say easy, medium, or hard, to get'
-                                 ' a new word and start spelling again.',
+                                 'Say your name and I\'ll remember it for next time.',
                 'card': '',
                 'reprompt_text': 'Ask Alexa to describe the premium content.',
                 'should_end_session': False,
@@ -339,7 +362,7 @@ class ConnectionsResponse:
             }
             return Response(response_components).build_response()
         else:
-            storage = Storage(self.context)
+            storage = Storage(self.context, self.request)
             storage.remove_access_to_premium()
             self.session_attributes['user_item']['premium']['BOOL'] = False
             response_components = {
