@@ -191,7 +191,7 @@ class IntentRequest:
                     word_list = easy
                 elif self.session_attributes['difficulty_level'] == 'medium':
                     word_list = medium
-                else
+                else:
                     word_list = hard
 
                 word = word_list[random.randint(0, len(word_list) - 1)]
