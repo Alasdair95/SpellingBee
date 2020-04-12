@@ -24,7 +24,6 @@ class InSkillPurchasing:
         product_name = response['inSkillProducts'][0]['name'].title()
         product_type = response['inSkillProducts'][0]['type'].lower()
         product_description = response['inSkillProducts'][0]['summary']
-        print(response)
         response_components = {
             'output_speech': f'You can buy {product_name}. It is a {product_type} purchase'
                              f' with the description: {product_description}',

@@ -50,8 +50,6 @@ class IntentRequest:
 
     def return_response(self):
         intent_triggered = self.request['intent']['name']
-        # This is where the check for whether the user is premium needs to go
-        # If user is not premium we will return another function I need to write - user_not_premium_response
         return self.intent_mapping.get(intent_triggered, self.handle_bad_request())()
 
     def handle_bad_request(self):
@@ -63,6 +61,12 @@ class IntentRequest:
             'session_attributes': self.session_attributes
         }
         return Response(response_components).build_response()
+
+    def premium_user_check(self):
+        if self.session_attributes['user_item']['premium']['BOOL']:
+            return True
+        else:
+            return False
 
     def get_first_word_of_session(self):
         slot_dict = self.request['intent']['slots'].get('Difficulty', None)
@@ -95,9 +99,9 @@ class IntentRequest:
                 count += 1
 
             response_components = {
-                'output_speech': f'Your word is {word}',
+                'output_speech': f'Your word is: {word}',
                 'card': '',
-                'reprompt_text': f'Your word is {word}',
+                'reprompt_text': f'Your word is: {word}',
                 'should_end_session': False,
                 'session_attributes': self.session_attributes
             }
@@ -193,12 +197,56 @@ class IntentRequest:
                 pass
 
     def get_word_definition(self):
-        words_api = WordsApi(self.session_attributes)
-        return words_api.get_word_definition()
+        if self.premium_user_check():
+            if 'word' in self.session_attributes.keys():
+                words_api = WordsApi(self.session_attributes)
+                return words_api.get_word_definition()
+            else:
+                response_components = {
+                    'output_speech': 'You need to get a word first. Say easy, medium, or hard to'
+                                     ' pick a difficulty.',
+                    'card': '',
+                    'reprompt_text': None,
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
+        else:
+            response_components = {
+                'output_speech': 'That is a premium function. Ask Alexa about what you can buy in this skill'
+                                 ' to find out more',
+                'card': '',
+                'reprompt_text': None,
+                'should_end_session': False,
+                'session_attributes': self.session_attributes
+            }
+            return Response(response_components).build_response()
 
     def get_example_sentence(self):
-        words_api = WordsApi(self.session_attributes)
-        return words_api.get_example_sentence()
+        if self.premium_user_check():
+            if 'word' in self.session_attributes.keys():
+                words_api = WordsApi(self.session_attributes)
+                return words_api.get_example_sentence()
+            else:
+                response_components = {
+                    'output_speech': 'You need to get a word first. Say easy, medium, or hard to'
+                                     ' pick a difficulty.',
+                    'card': '',
+                    'reprompt_text': None,
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
+        else:
+            response_components = {
+                'output_speech': 'That is a premium function. Ask Alexa about what you can buy in this skill'
+                                 ' to find out more',
+                'card': '',
+                'reprompt_text': None,
+                'should_end_session': False,
+                'session_attributes': self.session_attributes
+            }
+            return Response(response_components).build_response()
 
     def help_request(self):
         self.session_attributes['output_type'] = 'speech'

@@ -44,12 +44,12 @@ class Event:
             pass
 
 
-if __name__ == '__main__':
-    context = {'System': {'user': {'userId': 'abc124'}}}
-    e = {
-        'context': context,
-        'session': {},
-        'request': {}
-    }
-    event = Event(e)
-    event.get_user_item_from_dynamodb()
+# if __name__ == '__main__':
+#     context = {'System': {'user': {'userId': 'abc124'}}}
+#     e = {
+#         'context': context,
+#         'session': {},
+#         'request': {}
+#     }
+#     event = Event(e)
+#     event.get_user_item_from_dynamodb()
