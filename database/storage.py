@@ -2,9 +2,10 @@ import boto3
 
 
 class Storage:
-    def __init__(self, context):
+    def __init__(self, context, request):
         self.client = boto3.client('dynamodb', region_name='eu-west-1')
         self.context = context
+        self.request = request
 
     def list_my_tables(self):
         return self.client.list_tables()
@@ -47,6 +48,18 @@ class Storage:
         table = 'sb_users'
         attribute_updates = {
             'premium': {'Value': {'BOOL': False}}
+        }
+        self.client.update_item(Key=key, TableName=table, AttributeUpdates=attribute_updates)
+
+    def add_user_name(self):
+        user_id = self.context['System']['user']['userId']
+        name = self.request['intent']['slots']['UserName']['value']
+        key = {
+            'userId': {'S': user_id}
+        }
+        table = 'sb_users'
+        attribute_updates = {
+            'name': {'Value': {'S': f'{name}'}}
         }
         self.client.update_item(Key=key, TableName=table, AttributeUpdates=attribute_updates)
 
