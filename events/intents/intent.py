@@ -14,7 +14,8 @@ class LaunchRequest:
         self.request = request
         self.session_attributes = {
             'output_type': 'speech',
-            'user_item': user_item
+            'user_item': user_item,
+            'num_correct_in_row': 0
         }
 
     def get_welcome_response(self):
@@ -32,6 +33,7 @@ class LaunchRequest:
 class IntentRequest:
     def __init__(self, request, session, context):
         self.request = request
+        self.session = session
         self.context = context
         self.session_attributes = session['attributes']
         self.intent_mapping = {
@@ -48,7 +50,8 @@ class IntentRequest:
             'buyPremium': (self.buy_premium, False),
             'describePremiumContent': (self.describe_premium_content, False),
             'cancelSubscription': (self.cancel_subscription, True),
-            'isUserPremium': (self.is_user_premium, False)
+            'isUserPremium': (self.is_user_premium, False),
+            'getPersonalBest': (self.get_personal_best, True)
         }
 
     def return_response(self):
@@ -59,7 +62,8 @@ class IntentRequest:
             if self.premium_user_check():
                 try:
                     return method_tuple[0]()
-                except:
+                except Exception as e:
+                    print(e)
                     return self.handle_bad_request()
             else:
                 response_components = {
@@ -74,7 +78,8 @@ class IntentRequest:
         else:
             try:
                 return method_tuple[0]()
-            except:
+            except Exception as e:
+                print(e)
                 return self.handle_bad_request()
 
     def handle_bad_request(self):
@@ -156,6 +161,14 @@ class IntentRequest:
                     return Response(response_components).build_response()
                 else:
                     self.session_attributes['output_type'] = 'speech'
+                    num_correct_in_row = self.session_attributes['num_correct_in_row']
+                    self.session_attributes['num_correct_in_row'] = num_correct_in_row + 1
+
+                    if (self.session_attributes['num_correct_in_row'] >
+                            int(self.session_attributes['user_item']['personalBest']['N'])):
+                        storage = Storage(self.context, self.request)
+                        storage.update_personal_best(self.session_attributes['num_correct_in_row'])
+
                     response_components = {
                         'output_speech': f"Well done, you spelled {self.session_attributes['word']} correctly."
                         f" Do you want a new word?",
@@ -169,6 +182,7 @@ class IntentRequest:
                 self.session_attributes['output_type'] = 'speech'
                 attempt_number = self.session_attributes['attempt_number'] - 1
                 self.session_attributes['attempt_number'] = attempt_number
+                self.session_attributes['num_correct_in_row'] = 0
                 response_components = {
                     'output_speech': "Try again.",
                     'card': '',
@@ -184,7 +198,7 @@ class IntentRequest:
         if not slot_dict:
             self.handle_bad_request()
         else:
-            slot_value = slot_dict['value']
+            slot_value = slot_dict['resolutions']['resolutionsPerAuthority'][0]['values'][0]['value']['name']
 
             if slot_value == 'yes':
                 if self.session_attributes['difficulty_level'] == 'easy':
@@ -215,7 +229,7 @@ class IntentRequest:
                 }
                 return Response(response_components).build_response()
             else:
-                pass
+                self.handle_bad_request()
 
     def get_word_definition(self):
         if 'word' in self.session_attributes.keys():
@@ -309,11 +323,32 @@ class IntentRequest:
         }
         return Response(response_components).build_response()
 
+    def get_personal_best(self):
+        storage = Storage(self.context, self.request)
+        user_item = storage.get_user_item()
+        self.session_attributes['user_item'] = user_item
+        personal_best = user_item['personalBest']['N']
+
+        if personal_best != '1':
+            output_speech = f'Your personal best is spelling {personal_best} words in a row.'
+        else:
+            output_speech = f'Your personal best is spelling {personal_best} word correctly.'
+
+        response_components = {
+            'output_speech': output_speech,
+            'card': '',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
 
 class ConnectionsResponse:
-    def __init__(self, request, user_item, context):
+    def __init__(self, request, user_item, context, session):
         self.request = request
         self.context = context
+        self.session = session
         self.session_attributes = {
             'output_type': 'speech',
             'user_item': user_item
