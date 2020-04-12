@@ -1,4 +1,3 @@
-
 import random
 
 from my_words import *
@@ -17,7 +16,6 @@ class LaunchRequest:
         }
 
     def get_welcome_response(self):
-
         response_components = {
             'output_speech': 'Welcome to spelling bee! What difficulty would you like; easy,\
                              medium, or hard?',
@@ -35,22 +33,44 @@ class IntentRequest:
         self.context = context
         self.session_attributes = session['attributes']
         self.intent_mapping = {
-            'AMAZON.FallbackIntent': self.handle_bad_request,
-            'AMAZON.CancelIntent': self.end_session,
-            'AMAZON.StopIntent': self.end_session,
-            'AMAZON.HelpIntent': self.help_request,
-            'difficultyLevel': self.get_first_word_of_session,
-            'letterAttempt': self.handle_word_spelling,
-            'newWord': self.get_new_word,
-            'getWordDefinition': self.get_word_definition,
-            'getExampleSentence': self.get_example_sentence,
-            'listInSkillProducts': self.list_in_skill_products,
-            'buyPremium': self.buy_premium
+            'AMAZON.FallbackIntent': (self.handle_bad_request, False),
+            'AMAZON.CancelIntent': (self.end_session, False),
+            'AMAZON.StopIntent': (self.end_session, False),
+            'AMAZON.HelpIntent': (self.help_request, False),
+            'difficultyLevel': (self.get_first_word_of_session, False),
+            'letterAttempt': (self.handle_word_spelling, False),
+            'newWord': (self.get_new_word, False),
+            'getWordDefinition': (self.get_word_definition, True),
+            'getExampleSentence': (self.get_example_sentence, True),
+            'listInSkillProducts': (self.list_in_skill_products, False),
+            'buyPremium': (self.buy_premium, False)
         }
 
     def return_response(self):
         intent_triggered = self.request['intent']['name']
-        return self.intent_mapping.get(intent_triggered, self.handle_bad_request())()
+        method_tuple = self.intent_mapping.get(intent_triggered)
+
+        if method_tuple[1]:
+            if self.premium_user_check():
+                try:
+                    return method_tuple[0]()
+                except:
+                    return self.handle_bad_request()
+            else:
+                response_components = {
+                    'output_speech': 'That is a premium function. Ask Alexa about what you can buy in this skill'
+                                     ' to find out more.',
+                    'card': '',
+                    'reprompt_text': None,
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
+        else:
+            try:
+                return method_tuple[0]()
+            except:
+                return self.handle_bad_request()
 
     def handle_bad_request(self):
         response_components = {
@@ -85,7 +105,7 @@ class IntentRequest:
             else:  # TODO: Handle anything that gets to here with handle_bad_request when built
                 pass
 
-            word = word_list[random.randint(0, len(word_list)-1)]
+            word = word_list[random.randint(0, len(word_list) - 1)]
 
             self.session_attributes['difficulty_level'] = difficulty_level
             self.session_attributes['word'] = word.lower()
@@ -135,7 +155,7 @@ class IntentRequest:
                     self.session_attributes['output_type'] = 'speech'
                     response_components = {
                         'output_speech': f"Well done, you spelled {self.session_attributes['word']} correctly."
-                                         f" Do you want a new word?",
+                        f" Do you want a new word?",
                         'card': '',
                         'reprompt_text': 'Do you want a new word?',
                         'should_end_session': False,
@@ -197,24 +217,13 @@ class IntentRequest:
                 pass
 
     def get_word_definition(self):
-        if self.premium_user_check():
-            if 'word' in self.session_attributes.keys():
-                words_api = WordsApi(self.session_attributes)
-                return words_api.get_word_definition()
-            else:
-                response_components = {
-                    'output_speech': 'You need to get a word first. Say easy, medium, or hard to'
-                                     ' pick a difficulty.',
-                    'card': '',
-                    'reprompt_text': None,
-                    'should_end_session': False,
-                    'session_attributes': self.session_attributes
-                }
-                return Response(response_components).build_response()
+        if 'word' in self.session_attributes.keys():
+            words_api = WordsApi(self.session_attributes)
+            return words_api.get_word_definition()
         else:
             response_components = {
-                'output_speech': 'That is a premium function. Ask Alexa about what you can buy in this skill'
-                                 ' to find out more',
+                'output_speech': 'You need to get a word first. Say easy, medium, or hard to'
+                                 ' pick a difficulty.',
                 'card': '',
                 'reprompt_text': None,
                 'should_end_session': False,
@@ -223,24 +232,13 @@ class IntentRequest:
             return Response(response_components).build_response()
 
     def get_example_sentence(self):
-        if self.premium_user_check():
-            if 'word' in self.session_attributes.keys():
-                words_api = WordsApi(self.session_attributes)
-                return words_api.get_example_sentence()
-            else:
-                response_components = {
-                    'output_speech': 'You need to get a word first. Say easy, medium, or hard to'
-                                     ' pick a difficulty.',
-                    'card': '',
-                    'reprompt_text': None,
-                    'should_end_session': False,
-                    'session_attributes': self.session_attributes
-                }
-                return Response(response_components).build_response()
+        if 'word' in self.session_attributes.keys():
+            words_api = WordsApi(self.session_attributes)
+            return words_api.get_example_sentence()
         else:
             response_components = {
-                'output_speech': 'That is a premium function. Ask Alexa about what you can buy in this skill'
-                                 ' to find out more',
+                'output_speech': 'You need to get a word first. Say easy, medium, or hard to'
+                                 ' pick a difficulty.',
                 'card': '',
                 'reprompt_text': None,
                 'should_end_session': False,
