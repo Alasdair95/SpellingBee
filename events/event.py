@@ -1,5 +1,5 @@
 
-from events.intents.intent import LaunchRequest, IntentRequest, SessionEndedRequest, ConnectionsResponse
+from events.intents.intent import LaunchRequest, IntentRequest, ConnectionsResponse
 from database.storage import Storage
 
 
@@ -16,7 +16,8 @@ class Event:
         if not user_item:
             user_item = {
                 'userId': self.context['System']['user']['userId'],
-                'premium': False
+                'premium': False,
+                'personalBest': 0
             }
             storage.save_user_item(user_item)
 
@@ -32,12 +33,10 @@ class Event:
             return LaunchRequest(self.request, user_item).get_welcome_response()
         elif self.request['type'] == 'IntentRequest':
             return IntentRequest(self.request, self.session, self.context).return_response()
-        elif self.request['type'] == 'SessionEndedRequest':
-            return SessionEndedRequest().end_session()
         elif self.request['type'] == 'Connections.Response':
             user_item = self.get_user_item_from_dynamodb()
             self.update_user_to_premium()
-            return ConnectionsResponse(self.request, user_item, self.context).get_welcome_back_response()
+            return ConnectionsResponse(self.request, user_item, self.context, self.session).get_welcome_back_response()
         else:
             return IntentRequest(self.request, self.session, self.context).handle_bad_request()
 

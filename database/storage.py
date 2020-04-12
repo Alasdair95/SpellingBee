@@ -25,7 +25,8 @@ class Storage:
     def save_user_item(self, item):
         formatted_item = {
             'userId': {'S': item['userId']},
-            'premium': {'BOOL': item['premium']}
+            'premium': {'BOOL': item['premium']},
+            'personalBest': {'N': str(item['personalBest'])}
         }
         self.client.put_item(Item=formatted_item, TableName='sb_users')
 
@@ -63,6 +64,16 @@ class Storage:
         }
         self.client.update_item(Key=key, TableName=table, AttributeUpdates=attribute_updates)
 
+    def update_personal_best(self, new_personal_best):
+        user_id = self.context['System']['user']['userId']
+        key = {
+            'userId': {'S': user_id}
+        }
+        table = 'sb_users'
+        attribute_updates = {
+            'personalBest': {'Value': {'N': f'{new_personal_best}'}}
+        }
+        self.client.update_item(Key=key, TableName=table, AttributeUpdates=attribute_updates)
 
 # Uncomment to run configurations
 # if __name__ == '__main__':
