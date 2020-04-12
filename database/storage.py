@@ -39,6 +39,17 @@ class Storage:
         }
         self.client.update_item(Key=key, TableName=table, AttributeUpdates=attribute_updates)
 
+    def remove_access_to_premium(self):
+        user_id = self.context['System']['user']['userId']
+        key = {
+            'userId': {'S': user_id}
+        }
+        table = 'sb_users'
+        attribute_updates = {
+            'premium': {'Value': {'BOOL': False}}
+        }
+        self.client.update_item(Key=key, TableName=table, AttributeUpdates=attribute_updates)
+
 
 # Uncomment to run configurations
 if __name__ == '__main__':

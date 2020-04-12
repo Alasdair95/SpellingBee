@@ -70,11 +70,42 @@ class Response:
               ]
         }
 
+    def _send_cancel_directive(self):
+        return {
+            'outputSpeech': {
+                'type': 'PlainText',
+                'text': self.output_speech
+            },
+            # TODO: Add field for 'card'
+            'reprompt': {
+                'outputSpeech': {
+                    'type': 'PlainText',
+                    'text': self.reprompt_text
+                }
+            },
+            'shouldEndSession': self.should_end_session,
+            "directives": [
+                {
+                  "type": "Connections.SendRequest",
+                  "name": "Cancel",
+                  "payload": {
+                    "InSkillProduct": {
+                      "productId": self.response_components['product_id']
+                    }
+                  },
+                  "token": "correlationToken"
+                }
+              ]
+        }
+
     # Builds response and sends it back to Alexa
     def build_response(self):
 
         if 'product_id' in self.response_components.keys():
-            response = self._send_buy_directive()
+            if self.response_components['directive'] == 'buy':
+                response = self._send_buy_directive()
+            else:
+                response = self._send_cancel_directive()
         elif self.session_attributes['output_type'] == 'speech':
             response = self._build_speech_response()
         elif self.session_attributes['output_type'] == 'audio':

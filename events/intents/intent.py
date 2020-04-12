@@ -5,6 +5,7 @@ from my_words import *
 from apis.wordsapi import WordsApi
 from apis.isp import InSkillPurchasing
 from events.speechoutput.response import Response
+from database.storage import Storage
 
 
 class LaunchRequest:
@@ -43,7 +44,9 @@ class IntentRequest:
             'getWordDefinition': (self.get_word_definition, True),
             'getExampleSentence': (self.get_example_sentence, True),
             'listInSkillProducts': (self.list_in_skill_products, False),
-            'buyPremium': (self.buy_premium, False)
+            'buyPremium': (self.buy_premium, False),
+            'describePremiumContent': (self.describe_premium_content, False),
+            'cancelSubscription': (self.cancel_subscription, True)
         }
 
     def return_response(self):
@@ -276,6 +279,23 @@ class IntentRequest:
         isp = InSkillPurchasing(self.context, self.request, self.session_attributes)
         return isp.buy_premium()
 
+    def describe_premium_content(self):
+        response_components = {
+            'output_speech': 'Buying Premium gives you access to everything in this skill. '
+                             'You can get definitions and example sentences for your word. '
+                             'You can play the 2 player mode. And Alexa will remember your name. '
+                             'Tell Alexa you want to buy premium to get started.',
+            'card': '',
+            'reprompt_text': None,
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
+    def cancel_subscription(self):
+        isp = InSkillPurchasing(self.context, self.request, self.session_attributes)
+        return isp.cancel_subscription()
+
 
 class SessionEndedRequest:
     def __init__(self, request, session):
@@ -295,22 +315,38 @@ class SessionEndedRequest:
 
 
 class ConnectionsResponse:
-    def __init__(self, request, user_item):
+    def __init__(self, request, user_item, context):
         self.request = request
+        self.context = context
         self.session_attributes = {
             'output_type': 'speech',
             'user_item': user_item
         }
 
     def get_welcome_back_response(self):
-        self.session_attributes['user_item']['premium']['BOOL'] = True
-        response_components = {
-            'output_speech': 'Thanks for buying premium, you now have access to all of the premium content. '
-                             'Ask Alexa to describe the premium content or say easy, medium, or hard, to get'
-                             ' a new word and start spelling again.',
-            'card': '',
-            'reprompt_text': 'Ask Alexa to describe the premium content.',
-            'should_end_session': False,
-            'session_attributes': self.session_attributes
-        }
-        return Response(response_components).build_response()
+        if self.request['name'] == 'Buy':
+            storage = Storage(self.context)
+            storage.update_user_to_premium()
+            self.session_attributes['user_item']['premium']['BOOL'] = True
+            response_components = {
+                'output_speech': 'Thanks for buying premium, you now have access to all of the premium content. '
+                                 'Ask Alexa to describe the premium content or say easy, medium, or hard, to get'
+                                 ' a new word and start spelling again.',
+                'card': '',
+                'reprompt_text': 'Ask Alexa to describe the premium content.',
+                'should_end_session': False,
+                'session_attributes': self.session_attributes
+            }
+            return Response(response_components).build_response()
+        else:
+            storage = Storage(self.context)
+            storage.remove_access_to_premium()
+            self.session_attributes['user_item']['premium']['BOOL'] = False
+            response_components = {
+                'output_speech': 'Say easy, medium, or hard to get a word and start spelling',
+                'card': '',
+                'reprompt_text': 'Ask Alexa to describe the premium content.',
+                'should_end_session': False,
+                'session_attributes': self.session_attributes
+            }
+            return Response(response_components).build_response()
