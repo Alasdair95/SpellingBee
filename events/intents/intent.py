@@ -105,10 +105,8 @@ class IntentRequest:
                 word_list = easy
             elif difficulty_level == 'medium':
                 word_list = medium
-            elif difficulty_level == 'hard':
+            else:
                 word_list = hard
-            else:  # TODO: Handle anything that gets to here with handle_bad_request when built
-                pass
 
             word = word_list[random.randint(0, len(word_list) - 1)]
 
@@ -193,10 +191,8 @@ class IntentRequest:
                     word_list = easy
                 elif self.session_attributes['difficulty_level'] == 'medium':
                     word_list = medium
-                elif self.session_attributes['difficulty_level'] == 'hard':
+                else
                     word_list = hard
-                else:  # TODO: Handle anything that gets to here with handle_bad_request when built
-                    pass
 
                 word = word_list[random.randint(0, len(word_list) - 1)]
 

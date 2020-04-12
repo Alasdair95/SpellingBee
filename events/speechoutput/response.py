@@ -15,7 +15,6 @@ class Response:
                 'type': 'PlainText',
                 'text': self.output_speech
             },
-            # TODO: Add field for 'card'
             'reprompt': {
                 'outputSpeech': {
                     'type': 'PlainText',
@@ -32,7 +31,6 @@ class Response:
                 'type': 'SSML',
                 'ssml': self.output_speech
             },
-            # TODO: Add field for 'card'
             'reprompt': {
                 'outputSpeech': {
                     'type': 'PlainText',
@@ -48,7 +46,6 @@ class Response:
                 'type': 'PlainText',
                 'text': self.output_speech
             },
-            # TODO: Add field for 'card'
             'reprompt': {
                 'outputSpeech': {
                     'type': 'PlainText',
@@ -76,7 +73,6 @@ class Response:
                 'type': 'PlainText',
                 'text': self.output_speech
             },
-            # TODO: Add field for 'card'
             'reprompt': {
                 'outputSpeech': {
                     'type': 'PlainText',
@@ -100,7 +96,6 @@ class Response:
 
     # Builds response and sends it back to Alexa
     def build_response(self):
-
         if 'product_id' in self.response_components.keys():
             if self.response_components['directive'] == 'buy':
                 response = self._send_buy_directive()
