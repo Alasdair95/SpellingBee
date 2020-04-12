@@ -18,16 +18,9 @@ class LaunchRequest:
         }
 
     def get_welcome_response(self):
-        if 'name' in self.session_attributes['user_item'].keys():
-            name = self.session_attributes['user_item']['name']['S']
-            output_speech = f'Welcome back {name}! What difficulty would you like; easy,\
-                             medium, or hard?'
-        else:
-            output_speech = 'Welcome to spelling bee! What difficulty would you like; easy,\
-                             medium, or hard?'
-
         response_components = {
-            'output_speech': output_speech,
+            'output_speech': 'Welcome to spelling bee! What difficulty would you like; easy,\
+                             medium, or hard?',
             'card': '',
             'reprompt_text': 'Pick easy, medium, or hard to get your first word.',
             'should_end_session': False,
@@ -55,7 +48,7 @@ class IntentRequest:
             'buyPremium': (self.buy_premium, False),
             'describePremiumContent': (self.describe_premium_content, False),
             'cancelSubscription': (self.cancel_subscription, True),
-            'setUserName': (self.set_user_name, True)
+            'isUserPremium': (self.is_user_premium, False)
         }
 
     def return_response(self):
@@ -305,15 +298,16 @@ class IntentRequest:
         isp = InSkillPurchasing(self.context, self.request, self.session_attributes)
         return isp.cancel_subscription()
 
-    def set_user_name(self):
-        storage = Storage(self.context, self.request)
-        storage.add_user_name()
-        name = self.request['intent']['slots']['UserName']['value']
-        self.session_attributes['name'] = name
+    def is_user_premium(self):
+        if self.session_attributes['user_item']['premium']['BOOL']:
+            output_speech = 'Yes, you are a premium user.'
+        else:
+            output_speech = 'No, you\'re not a premium user. Ask Alexa to buy premium to get started'
+
         response_components = {
-            'output_speech': f'Thank you {name}, you can now carry on as normal.',
+            'output_speech': output_speech,
             'card': '',
-            'reprompt_text': None,
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
