@@ -52,18 +52,6 @@ class Storage:
         }
         self.client.update_item(Key=key, TableName=table, AttributeUpdates=attribute_updates)
 
-    def add_user_name(self):
-        user_id = self.context['System']['user']['userId']
-        name = self.request['intent']['slots']['UserName']['value']
-        key = {
-            'userId': {'S': user_id}
-        }
-        table = 'sb_users'
-        attribute_updates = {
-            'name': {'Value': {'S': f'{name}'}}
-        }
-        self.client.update_item(Key=key, TableName=table, AttributeUpdates=attribute_updates)
-
     def update_personal_best(self, new_personal_best):
         user_id = self.context['System']['user']['userId']
         key = {

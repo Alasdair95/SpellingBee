@@ -229,7 +229,7 @@ class IntentRequest:
                 }
                 return Response(response_components).build_response()
             else:
-                self.handle_bad_request()
+                return self.end_session()
 
     def get_word_definition(self):
         if 'word' in self.session_attributes.keys():
@@ -361,7 +361,7 @@ class ConnectionsResponse:
             self.session_attributes['user_item']['premium']['BOOL'] = True
             response_components = {
                 'output_speech': 'Thanks for buying premium, you now have access to all of the premium content. '
-                                 'Say your name and I\'ll remember it for next time.',
+                                 'Say: Alexa, set my name.',
                 'card': '',
                 'reprompt_text': 'Ask Alexa to describe the premium content.',
                 'should_end_session': False,
