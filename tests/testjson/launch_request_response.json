@@ -1,0 +1,34 @@
+{
+	"body": {
+		"version": "1.0",
+		"response": {
+			"outputSpeech": {
+				"type": "PlainText",
+				"text": "Sorry, could you repeat that please?"
+			},
+			"reprompt": {
+				"outputSpeech": {
+					"type": "PlainText",
+					"text": "Sorry, could you repeat that please?"
+				}
+			},
+			"shouldEndSession": false,
+			"type": "_DEFAULT_RESPONSE"
+		},
+		"sessionAttributes": {
+			"user_item": {
+				"personalBest": {
+					"N": "1"
+				},
+				"userId": {
+					"S": "amzn1.ask.account.AFIP2TVYM42IMDOUF5U55RTELDTKGKN264QBTRJJP2CWKITZJGAWXZWI7QLVGLPAAIHVB5WWFGH6B75M2L2FOINDIKJK4U4UTMXVHZTEZCFG5W3VO3Q5FQE2ZFMLSZRQWKTD4FFF7VPCMIZUEJ2GFXOQZVUFZZIVCMPKVYHQSNZ4W3KS7YYRLBQ2H3GGTZ4TWZ24HTXWQISELCI"
+				},
+				"premium": {
+					"BOOL": false
+				}
+			},
+			"output_type": "speech",
+			"num_correct_in_row": 0
+		}
+	}
+}
