@@ -19,9 +19,14 @@ class LaunchRequest:
         }
 
     def get_welcome_response(self):
+        if 'name' in self.session_attributes['user_item'].keys():
+            name = self.session_attributes['user_item']['name']['S']
+            output_speech = f'Welcome back {name}! What difficulty would you like; easy, medium, or hard?'
+        else:
+            output_speech = 'Welcome to spelling bee! What difficulty would you like; easy, medium, or hard?'
+
         response_components = {
-            'output_speech': 'Welcome to spelling bee! What difficulty would you like; easy,\
-                             medium, or hard?',
+            'output_speech': output_speech,
             'card': '',
             'reprompt_text': 'Pick easy, medium, or hard to get your first word.',
             'should_end_session': False,
@@ -51,7 +56,8 @@ class IntentRequest:
             'describePremiumContent': (self.describe_premium_content, False),
             'cancelSubscription': (self.cancel_subscription, True),
             'isUserPremium': (self.is_user_premium, False),
-            'getPersonalBest': (self.get_personal_best, True)
+            'getPersonalBest': (self.get_personal_best, True),
+            'getUserName': (self.set_user_name, True)
         }
 
     def return_response(self):
@@ -336,6 +342,20 @@ class IntentRequest:
 
         response_components = {
             'output_speech': output_speech,
+            'card': '',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
+    def set_user_name(self):
+        storage = Storage(self.context, self.request)
+        storage.set_user_name()
+        name = self.request['intent']['slots']['UserName']['value'].title()
+
+        response_components = {
+            'output_speech': f'Ok {name}, I\'ll remember that for next time.',
             'card': '',
             'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
             'should_end_session': False,
