@@ -29,6 +29,6 @@ hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'unders
         'amenity', 'adverse', 'subtract', 'multiply', 'sunrise', 'spinach', 'underwear', 'dehumidifier', 'picture',
         'banana']
 
-print(len(easy))
-print(len(medium))
-print(len(hard))
+# print(len(easy))
+# print(len(medium))
+# print(len(hard))
