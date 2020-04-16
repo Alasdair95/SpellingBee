@@ -57,7 +57,8 @@ class IntentRequest:
             'cancelSubscription': (self.cancel_subscription, True),
             'isUserPremium': (self.is_user_premium, False),
             'getPersonalBest': (self.get_personal_best, True),
-            'getUserName': (self.set_user_name, True)
+            'getUserName': (self.set_user_name, True),
+            'typeOfWord': (self.get_word_type, True)
         }
 
     def return_response(self):
@@ -256,6 +257,21 @@ class IntentRequest:
         if 'word' in self.session_attributes.keys():
             words_api = WordsApi(self.session_attributes)
             return words_api.get_example_sentence()
+        else:
+            response_components = {
+                'output_speech': 'You need to get a word first. Say easy, medium, or hard to'
+                                 ' pick a difficulty.',
+                'card': '',
+                'reprompt_text': None,
+                'should_end_session': False,
+                'session_attributes': self.session_attributes
+            }
+            return Response(response_components).build_response()
+
+    def get_word_type(self):
+        if 'word' in self.session_attributes.keys():
+            words_api = WordsApi(self.session_attributes)
+            return words_api.get_word_type()
         else:
             response_components = {
                 'output_speech': 'You need to get a word first. Say easy, medium, or hard to'

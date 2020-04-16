@@ -50,8 +50,38 @@ class WordsApi:
             }
             return Response(response_components).build_response()
 
+    def get_word_type(self):
+        url = self.url_base + self.session_attributes['word']
+        api_response = requests.get(url, headers=self.headers).json()
+        word_types = list(set([word_info['partOfSpeech'] for word_info in api_response.get('results', None)]))
 
-# if __name__ == '__main__':
-#     session_attributes = {'word': 'dog'}
-#     words_api = WordsApi(session_attributes)
+        if len(word_types) == 1:
+            if word_types[0][0] not in ['a', 'e', 'i', 'o', 'u']:
+                output_speech = f"The word {self.session_attributes['word']} is a {word_types[0]}."
+            else:
+                output_speech = f"The word {self.session_attributes['word']} is an {word_types[0]}."
+        else:
+            if word_types[-1][0] not in ['a', 'e', 'i', 'o', 'u']:
+                word_types[-1] = 'or a '+word_types[-1]
+                types_str = ', '.join(word_types)
+                output_speech = f"The word {self.session_attributes['word']} can be a {types_str}."
+            else:
+                word_types[-1] = 'or an ' + word_types[-1]
+                types_str = ', '.join(word_types)
+                output_speech = f"The word {self.session_attributes['word']} can be a {types_str}."
+
+        response_components = {
+            'output_speech': output_speech,
+            'card': '',
+            'reprompt_text': None,
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
+
+if __name__ == '__main__':
+    session_attributes = {'word': 'terrible'}
+    words_api = WordsApi(session_attributes)
 #     words_api.get_example_sentence()
+    words_api.get_word_type()
