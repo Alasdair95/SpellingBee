@@ -4,7 +4,7 @@ easy = ['cat', 'dog', 'feel', 'fast', 'slow', 'cup', 'fan', 'bark', 'tile', 'myt
         'frog', 'menu', 'bump', 'hat', 'posh', 'icon', 'hair', 'foil', 'flex', 'fell', 'bag', 'ache', 'sway', 'sulk',
         'snag', 'sift', 'lame', 'jolt', 'howl', 'ham', 'gem', 'feud', 'post', 'big', 'huge', 'half', 'quit', 'dip',
         'sip', 'boat', 'sort', 'arm', 'type', 'road', 'aim', 'add', 'sink', 'door', 'leg', 'pen', 'red', 'blue', 'name',
-        'car', 'seat', 'hand']
+        'car', 'seat', 'hand', 'stew', 'lime', ]
 
 medium = ['little', 'people', 'thing', 'listen', 'mother', 'bottle', 'nerve', 'alarm', 'mouse', 'travel', 'success',
           'fruit', 'wrong', 'guess', 'family', 'house', 'money', 'tonight', 'happy', 'pretty', 'three', 'honey',
@@ -18,7 +18,8 @@ medium = ['little', 'people', 'thing', 'listen', 'mother', 'bottle', 'nerve', 'a
           'banter', 'ballot', 'avert', 'avenge', 'append', 'angel', 'angle', 'angry', 'albeit', 'afloat', 'divide',
           'actual', 'abyss', 'accuse', 'swerve', 'stump', 'stamp', 'sturdy', 'strive', 'stripe', 'straw', 'stroke',
           'pencil', 'pants', 'shirt', 'short', 'apple', 'black', 'white', 'green', 'yellow', 'purple', 'brown',
-          'flower', 'laptop', 'voice', 'event', 'finger', 'elbow', 'magnet', 'glass', 'manual', 'coast']
+          'flower', 'laptop', 'voice', 'event', 'finger', 'elbow', 'magnet', 'glass', 'manual', 'coast', 'guilt',
+          'guilty', 'guitar', 'burger', 'tomato', 'salad', 'potato', 'lemon', 'sweat', 'sweet', ]
 
 hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'understand', 'platform', 'purchase',
         'publicity', 'brother', 'business', 'beautiful', 'tomorrow', 'important', 'daughter', 'different', 'marriage',
@@ -27,7 +28,7 @@ hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'unders
         'octopus', 'nurture', 'mileage', 'mislead', 'lozenge', 'inhabit', 'immerse', 'foresee', 'forearm', 'fixture',
         'finesse', 'emulate', 'eminent', 'diverse', 'density', 'deficit', 'decimal', 'ceramic', 'audible', 'ambient',
         'amenity', 'adverse', 'subtract', 'multiply', 'sunrise', 'spinach', 'underwear', 'dehumidifier', 'picture',
-        'banana']
+        'banana', 'regular', ]
 
 # print(len(easy))
 # print(len(medium))
