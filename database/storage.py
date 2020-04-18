@@ -26,7 +26,8 @@ class Storage:
         formatted_item = {
             'userId': {'S': item['userId']},
             'premium': {'BOOL': item['premium']},
-            'personalBest': {'N': str(item['personalBest'])}
+            'personalBest': {'N': str(item['personalBest'])},
+            'homeworkList': {'L': item['homeworkList']}
         }
         self.client.put_item(Item=formatted_item, TableName='sb_users')
 
@@ -74,6 +75,18 @@ class Storage:
             'name': {'Value': {'S': f'{name}'}}
         }
         self.client.update_item(Key=key, TableName=table, AttributeUpdates=attribute_updates)
+
+    def add_homework_word(self, homework_list):
+        user_id = self.context['System']['user']['userId']
+        key = {
+            'userId': {'S': user_id}
+        }
+        table = 'sb_users'
+        attribute_updates = {
+            'homeworkList': {'Value': {'L': homework_list}}
+        }
+        self.client.update_item(Key=key, TableName=table, AttributeUpdates=attribute_updates)
+
 
 # Uncomment to run configurations
 # if __name__ == '__main__':
