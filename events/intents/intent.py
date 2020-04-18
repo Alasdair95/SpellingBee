@@ -58,7 +58,8 @@ class IntentRequest:
             'isUserPremium': (self.is_user_premium, False),
             'getPersonalBest': (self.get_personal_best, True),
             'getUserName': (self.set_user_name, True),
-            'typeOfWord': (self.get_word_type, True)
+            'typeOfWord': (self.get_word_type, True),
+            'wordReminder': (self.word_reminder, False)
         }
 
     def return_response(self):
@@ -177,7 +178,7 @@ class IntentRequest:
                         storage.update_personal_best(self.session_attributes['num_correct_in_row'])
 
                     response_components = {
-                        'output_speech': f"Well done, you spelled {self.session_attributes['word']} correctly."
+                        'output_speech': f"Well done, you spelled the word {self.session_attributes['word']} correctly."
                         f" Do you want a new word?",
                         'card': '',
                         'reprompt_text': 'Do you want a new word?',
@@ -372,6 +373,22 @@ class IntentRequest:
 
         response_components = {
             'output_speech': f'Ok {name}, I\'ll remember that for next time.',
+            'card': '',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
+    def word_reminder(self):
+        if 'word' in self.session_attributes.keys():
+            word = self.session_attributes['word']
+            output_speech = f'Your word is: {word}.'
+        else:
+            output_speech = 'You don\'t currently have a word. Say easy, medium or hard to get started.'
+
+        response_components = {
+            'output_speech': output_speech,
             'card': '',
             'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
             'should_end_session': False,
