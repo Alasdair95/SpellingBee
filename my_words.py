@@ -4,7 +4,7 @@ easy = ['cat', 'dog', 'feel', 'fast', 'slow', 'cup', 'fan', 'bark', 'tile', 'myt
         'frog', 'menu', 'bump', 'hat', 'posh', 'icon', 'hair', 'foil', 'flex', 'fell', 'bag', 'ache', 'sway', 'sulk',
         'snag', 'sift', 'lame', 'jolt', 'howl', 'ham', 'gem', 'feud', 'post', 'big', 'huge', 'half', 'quit', 'dip',
         'sip', 'boat', 'sort', 'arm', 'type', 'road', 'aim', 'add', 'sink', 'door', 'leg', 'pen', 'red', 'blue', 'name',
-        'car', 'seat', 'hand', 'stew', 'lime', ]
+        'car', 'seat', 'hand', 'stew', 'lime', 'life', 'line']
 
 medium = ['little', 'people', 'thing', 'listen', 'mother', 'bottle', 'nerve', 'alarm', 'mouse', 'travel', 'success',
           'fruit', 'wrong', 'guess', 'family', 'house', 'money', 'tonight', 'happy', 'pretty', 'three', 'honey',
