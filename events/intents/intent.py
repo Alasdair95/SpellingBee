@@ -140,8 +140,13 @@ class IntentRequest:
                 self.session_attributes[f'letter_{count}'] = letter
                 count += 1
 
+            response_list = [f'Your word is: {word}',
+                             f'Your first word is: {word}']
+
+            output_speech = response_list[random.randint(0, len(response_list) - 1)]
+
             response_components = {
-                'output_speech': f'Your word is: {word}',
+                'output_speech': output_speech,
                 'card': '',
                 'reprompt_text': f'Your word is: {word}',
                 'should_end_session': False,
@@ -234,10 +239,17 @@ class IntentRequest:
                     self.session_attributes[f'letter_{count}'] = letter
                     count += 1
 
+                response_list = [f'Your word is: {word}',
+                                 f'Your next word is: {word}',
+                                 f'Your new word is: {word}',
+                                 f'Your next word to spell is: {word}']
+
+                output_speech = response_list[random.randint(0, len(response_list) - 1)]
+
                 response_components = {
-                    'output_speech': f'Your word is {word}',
+                    'output_speech': output_speech,
                     'card': '',
-                    'reprompt_text': f'Your word is {word}',
+                    'reprompt_text': output_speech,
                     'should_end_session': False,
                     'session_attributes': self.session_attributes
                 }
@@ -392,7 +404,14 @@ class IntentRequest:
     def word_reminder(self):
         if 'word' in self.session_attributes.keys():
             word = self.session_attributes['word']
-            output_speech = f'Your word is: {word}.'
+
+            response_list = [f'Your word is: {word}',
+                             f'Your current word is: {word}',
+                             f'Your current word to spell is: {word}',
+                             f'Your word to spell is: {word}']
+
+            output_speech = response_list[random.randint(0, len(response_list) - 1)]
+
         else:
             output_speech = 'You don\'t currently have a word. Say easy, medium or hard to get started.'
 

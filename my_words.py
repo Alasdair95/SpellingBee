@@ -4,7 +4,8 @@ easy = ['cat', 'dog', 'feel', 'fast', 'slow', 'cup', 'fan', 'bark', 'tile', 'myt
         'frog', 'menu', 'bump', 'hat', 'posh', 'icon', 'hair', 'foil', 'flex', 'fell', 'bag', 'ache', 'sway', 'sulk',
         'snag', 'sift', 'lame', 'jolt', 'howl', 'ham', 'gem', 'feud', 'post', 'big', 'huge', 'half', 'quit', 'dip',
         'sip', 'boat', 'sort', 'arm', 'type', 'road', 'aim', 'add', 'sink', 'door', 'leg', 'pen', 'red', 'blue', 'name',
-        'car', 'seat', 'hand', 'stew', 'lime', 'life', 'line']
+        'car', 'seat', 'hand', 'stew', 'lime', 'life', 'line', 'peck', 'fork', 'fly', 'dry', 'drop', 'food', 'soil',
+        'dirt', 'cow', 'eat', 'book', 'read', 'mug', 'tea', 'poem', 'wood']
 
 medium = ['little', 'people', 'thing', 'listen', 'mother', 'bottle', 'nerve', 'alarm', 'mouse', 'travel', 'success',
           'fruit', 'wrong', 'guess', 'family', 'house', 'money', 'tonight', 'happy', 'pretty', 'three', 'honey',
@@ -19,7 +20,11 @@ medium = ['little', 'people', 'thing', 'listen', 'mother', 'bottle', 'nerve', 'a
           'actual', 'abyss', 'accuse', 'swerve', 'stump', 'stamp', 'sturdy', 'strive', 'stripe', 'straw', 'stroke',
           'pencil', 'pants', 'shirt', 'short', 'apple', 'black', 'white', 'green', 'yellow', 'purple', 'brown',
           'flower', 'laptop', 'voice', 'event', 'finger', 'elbow', 'magnet', 'glass', 'manual', 'coast', 'guilt',
-          'guilty', 'guitar', 'burger', 'tomato', 'salad', 'potato', 'lemon', 'sweat', 'sweet', ]
+          'guilty', 'guitar', 'burger', 'tomato', 'salad', 'potato', 'lemon', 'sweat', 'sweet', 'siege', 'sequel',
+          'equal', 'rustic', 'stable', 'satire', 'prison', 'pounce', 'pound', 'perch', 'pebble', 'quiver', 'nimble',
+          'kettle', 'mural', 'locust', 'lilac', 'spoon', 'knife', 'jagged', 'hinge', 'graze', 'frugal', 'frail',
+          'dress', 'evade', 'enact', 'embryo', 'embody', 'dummy', 'dimple', 'devout', 'crutch', 'exist', 'coffee',
+          'antler', 'rhyme', 'rhythm', 'stick', 'stuck', 'stack']
 
 hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'understand', 'platform', 'purchase',
         'publicity', 'brother', 'business', 'beautiful', 'tomorrow', 'important', 'daughter', 'different', 'marriage',
@@ -28,7 +33,9 @@ hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'unders
         'octopus', 'nurture', 'mileage', 'mislead', 'lozenge', 'inhabit', 'immerse', 'foresee', 'forearm', 'fixture',
         'finesse', 'emulate', 'eminent', 'diverse', 'density', 'deficit', 'decimal', 'ceramic', 'audible', 'ambient',
         'amenity', 'adverse', 'subtract', 'multiply', 'sunrise', 'spinach', 'underwear', 'dehumidifier', 'picture',
-        'banana', 'regular', ]
+        'banana', 'regular', 'secluded', 'rhubarb', 'respite', 'abolish', 'rejoice', 'refrain', 'recline', 'abhorrent',
+        'abnormality', 'synthesis', 'plunder', 'pensive', 'oblique', 'loquacious', 'recognition', 'grimace', 'glitter',
+        'glorify', 'ghastly', 'flicker', 'clutched', 'callous', 'blemish', 'augment', ]
 
 # print(len(easy))
 # print(len(medium))
