@@ -15,7 +15,8 @@ class LaunchRequest:
         self.session_attributes = {
             'output_type': 'speech',
             'user_item': user_item,
-            'num_correct_in_row': 0
+            'num_correct_in_row': 0,
+            'mode': 'regular'
         }
 
     def get_welcome_response(self):
@@ -59,7 +60,12 @@ class IntentRequest:
             'getPersonalBest': (self.get_personal_best, True),
             'getUserName': (self.set_user_name, True),
             'typeOfWord': (self.get_word_type, True),
-            'wordReminder': (self.word_reminder, False)
+            'wordReminder': (self.word_reminder, False),
+            'activateHomeworkMode': (self.activate_homework_mode, True),
+            'deactivateHomeworkMode': (self.deactivate_homework_mode, True),
+            'addHomeworkWord': (self.add_homework_word, True),
+            'clearHomeworkList': (self.clear_homework_list, True),
+            'listHomeworkWords': (self.list_homework_words, True)
         }
 
     def return_response(self):
@@ -332,10 +338,13 @@ class IntentRequest:
         return isp.cancel_subscription()
 
     def is_user_premium(self):
-        if self.session_attributes['user_item']['premium']['BOOL']:
-            output_speech = 'Yes, you are a premium user.'
-        else:
-            output_speech = 'No, you\'re not a premium user. Ask Alexa to buy premium to get started'
+        try:
+            if self.session_attributes['user_item']['premium']['BOOL']:
+                output_speech = 'Yes, you are a premium user.'
+            else:
+                output_speech = 'No, you\'re not a premium user. Ask Alexa to buy premium to get started.'
+        except Exception:
+            output_speech = 'No, you\'re not a premium user. Ask Alexa to buy premium to get started.'
 
         response_components = {
             'output_speech': output_speech,
@@ -386,6 +395,99 @@ class IntentRequest:
             output_speech = f'Your word is: {word}.'
         else:
             output_speech = 'You don\'t currently have a word. Say easy, medium or hard to get started.'
+
+        response_components = {
+            'output_speech': output_speech,
+            'card': '',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
+    def activate_homework_mode(self):
+        self.session_attributes['mode'] = 'homework'
+        homework_list = [i['S'] for i in self.session_attributes['user_item']['homeworkList']['L']]
+
+        word = homework_list[random.randint(0, len(homework_list) - 1)]
+
+        self.session_attributes['word'] = word.lower()
+        self.session_attributes['attempt_number'] = 0
+
+        word_letter_list = [i for i in word]
+        count = 1
+
+        for letter in word_letter_list:
+            self.session_attributes[f'letter_{count}'] = letter
+            count += 1
+
+        response_components = {
+            'output_speech': f'Homework mode activated. Your first word is: {word}',
+            'card': '',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
+    def deactivate_homework_mode(self):
+        self.session_attributes['mode'] = 'regular'
+
+        response_components = {
+            'output_speech': f'Homework mode deactivated. Say easy, medium, or hard to get a new word.',
+            'card': '',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
+    def add_homework_word(self):
+        slot_dict = self.request['intent']['slots'].get('HomeworkWord', None)
+        if not slot_dict:
+            return self.handle_bad_request()
+        else:
+            new_word = slot_dict['value'].lower()
+            homework_list = self.session_attributes['user_item']['homeworkList']['L']
+            homework_list.append({'S': new_word})
+            storage = Storage(self.context, self.request)
+            storage.add_homework_word(homework_list)
+
+            response_components = {
+                'output_speech': f'I\'ve added the word: {new_word} to your homework list.',
+                'card': '',
+                'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+                'should_end_session': False,
+                'session_attributes': self.session_attributes
+            }
+            return Response(response_components).build_response()
+
+    def clear_homework_list(self):
+        homework_list = []
+        storage = Storage(self.context, self.request)
+        storage.add_homework_word(homework_list)
+
+        response_components = {
+            'output_speech': 'I\'ve emptied your homework list. You can now start adding new words to it again.',
+            'card': '',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
+    def list_homework_words(self):
+        homework_list = [i['S'] for i in self.session_attributes['user_item']['homeworkList']['L']]
+        homework_list[-1] = 'and '+homework_list[-1]
+        words_string = ', '.join(homework_list)
+
+        if len(homework_list) == 0:
+            output_speech = 'You don\'t have any words in your homework list yet. ' \
+                            'Say Alexa, add word to my homework list.'
+        elif len(homework_list) == 1:
+            output_speech = f'Your homework list has the word {words_string.replace("and", "").strip()} in it.'
+        else:
+            output_speech = f'Your homework list has these words: {words_string}'
 
         response_components = {
             'output_speech': output_speech,

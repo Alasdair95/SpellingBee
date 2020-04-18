@@ -17,7 +17,8 @@ class Event:
             user_item = {
                 'userId': self.context['System']['user']['userId'],
                 'premium': False,
-                'personalBest': 0
+                'personalBest': 0,
+                'homeworkList': []
             }
             storage.save_user_item(user_item)
 
