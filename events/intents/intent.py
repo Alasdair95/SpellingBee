@@ -84,7 +84,7 @@ class IntentRequest:
                     'output_speech': 'That is a premium function. Ask Alexa about what you can buy in this skill'
                                      ' to find out more.',
                     'card': '',
-                    'reprompt_text': None,
+                    'reprompt_text': 'Say Alexa, what can I buy',
                     'should_end_session': False,
                     'session_attributes': self.session_attributes
                 }
@@ -249,7 +249,7 @@ class IntentRequest:
                 response_components = {
                     'output_speech': output_speech,
                     'card': '',
-                    'reprompt_text': output_speech,
+                    'reprompt_text': f'Your word is: {word}',
                     'should_end_session': False,
                     'session_attributes': self.session_attributes
                 }
@@ -266,7 +266,8 @@ class IntentRequest:
                 'output_speech': 'You need to get a word first. Say easy, medium, or hard to'
                                  ' pick a difficulty.',
                 'card': '',
-                'reprompt_text': None,
+                'reprompt_text': 'You need to get a word first. Say easy, medium, or hard to'
+                                 ' pick a difficulty.',
                 'should_end_session': False,
                 'session_attributes': self.session_attributes
             }
@@ -281,7 +282,8 @@ class IntentRequest:
                 'output_speech': 'You need to get a word first. Say easy, medium, or hard to'
                                  ' pick a difficulty.',
                 'card': '',
-                'reprompt_text': None,
+                'reprompt_text': 'You need to get a word first. Say easy, medium, or hard to'
+                                 ' pick a difficulty.',
                 'should_end_session': False,
                 'session_attributes': self.session_attributes
             }
@@ -296,7 +298,8 @@ class IntentRequest:
                 'output_speech': 'You need to get a word first. Say easy, medium, or hard to'
                                  ' pick a difficulty.',
                 'card': '',
-                'reprompt_text': None,
+                'reprompt_text': 'You need to get a word first. Say easy, medium, or hard to'
+                                 ' pick a difficulty.',
                 'should_end_session': False,
                 'session_attributes': self.session_attributes
             }
@@ -307,7 +310,7 @@ class IntentRequest:
         response_components = {
             'output_speech': 'Say easy, medium, or hard, to pick the level of difficulty and get a new word.',
             'card': '',
-            'reprompt_text': None,
+            'reprompt_text': 'Say easy, medium, or hard, to pick the level of difficulty and get a new word.',
             'should_end_session': True,
             'session_attributes': self.session_attributes
         }
@@ -339,7 +342,7 @@ class IntentRequest:
                              'You can play the 2 player mode. And Alexa will remember your name. '
                              'Tell Alexa you want to buy premium to get started.',
             'card': '',
-            'reprompt_text': None,
+            'reprompt_text': 'Say Alexa, buy premium to get access to all of the premium content.',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
@@ -361,7 +364,7 @@ class IntentRequest:
         response_components = {
             'output_speech': output_speech,
             'card': '',
-            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'reprompt_text': 'Say Alexa, what is premium, to hear about the premium subscription.',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
@@ -381,7 +384,7 @@ class IntentRequest:
         response_components = {
             'output_speech': output_speech,
             'card': '',
-            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and keep spelling.',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
@@ -395,7 +398,7 @@ class IntentRequest:
         response_components = {
             'output_speech': f'Ok {name}, I\'ll remember that for next time.',
             'card': '',
-            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and keep spelling.',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
@@ -418,7 +421,7 @@ class IntentRequest:
         response_components = {
             'output_speech': output_speech,
             'card': '',
-            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'reprompt_text': output_speech,
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
@@ -443,7 +446,7 @@ class IntentRequest:
         response_components = {
             'output_speech': f'Homework mode activated. Your first word is: {word}',
             'card': '',
-            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'reprompt_text': None,
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
@@ -455,7 +458,7 @@ class IntentRequest:
         response_components = {
             'output_speech': f'Homework mode deactivated. Say easy, medium, or hard to get a new word.',
             'card': '',
-            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling again.',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
@@ -475,7 +478,7 @@ class IntentRequest:
             response_components = {
                 'output_speech': f'I\'ve added the word: {new_word} to your homework list.',
                 'card': '',
-                'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+                'reprompt_text': None,
                 'should_end_session': False,
                 'session_attributes': self.session_attributes
             }
@@ -489,7 +492,7 @@ class IntentRequest:
         response_components = {
             'output_speech': 'I\'ve emptied your homework list. You can now start adding new words to it again.',
             'card': '',
-            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling again.',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
@@ -511,7 +514,7 @@ class IntentRequest:
         response_components = {
             'output_speech': output_speech,
             'card': '',
-            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling.',
+            'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling again.',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
