@@ -28,7 +28,8 @@ class InSkillPurchasing:
             'output_speech': f'You can buy {product_name}. It is a {product_type} purchase'
                              f' with the description: {product_description}',
             'card': '',
-            'reprompt_text': None,
+            'reprompt_text': f'You can buy {product_name}. It is a {product_type} purchase'
+                             f' with the description: {product_description}',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
