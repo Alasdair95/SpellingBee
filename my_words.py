@@ -1,11 +1,25 @@
-easy = ['cat', 'dog', 'feel', 'fast', 'slow', 'cup', 'fan', 'bark', 'tile', 'myth', 'zoo', 'fur', 'sour', 'sing',
+easy = ['cat', 'dog', 'feel', 'fast', 'slow', 'cup', 'fan', 'bark', 'tile', 'myth', 'zoo', 'fur', 'sour', 'sing', 'tub',
         'song', 'wee', 'zip', 'quiz', 'jar', 'ham', 'pony', 'lawn', 'loft', 'jump', 'bend', 'glow', 'hit', 'hard',
         'hide', 'air', 'fox', 'rich', 'mask', 'shed', 'tune', 'urge', 'sock', 'shoe', 'pole', 'poet', 'mud', 'oven',
         'frog', 'menu', 'bump', 'hat', 'posh', 'icon', 'hair', 'foil', 'flex', 'fell', 'bag', 'ache', 'sway', 'sulk',
         'snag', 'sift', 'lame', 'jolt', 'howl', 'ham', 'gem', 'feud', 'post', 'big', 'huge', 'half', 'quit', 'dip',
         'sip', 'boat', 'sort', 'arm', 'type', 'road', 'aim', 'add', 'sink', 'door', 'leg', 'pen', 'red', 'blue', 'name',
         'car', 'seat', 'hand', 'stew', 'lime', 'life', 'line', 'peck', 'fork', 'fly', 'dry', 'drop', 'food', 'soil',
-        'dirt', 'cow', 'eat', 'book', 'read', 'mug', 'tea', 'poem', 'wood']
+        'dirt', 'cow', 'eat', 'book', 'read', 'mug', 'tea', 'poem', 'wood', 'save', 'over', 'true', 'hug', 'bank',
+        'find', 'surf', 'star', 'deal', 'bomb', 'itch', 'cave', 'card', 'ash', 'oak', 'tree', 'wise', 'dust', 'joy',
+        'sad', 'swim', 'head', 'plan', 'play', 'act', 'pump', 'bump', 'suit', 'dumb', 'fade', 'talk', 'boil', 'glue',
+        'pet', 'man', 'can', 'love', 'near', 'ring', 'one', 'two', 'four', 'five', 'six', 'nine', 'ten', 'fish',
+        'king', 'time', 'city', 'film', 'lion', 'rain', 'ball', 'lady', 'work', 'moon', 'body', 'land', 'high', 'dent',
+        'rock', 'rose', 'wish', 'baby', 'home', 'hope', 'open', 'fall', 'hero', 'ever', 'dark', 'good', 'nice', 'leaf',
+        'list', 'ship', 'face', 'hate', 'edge', 'desk', 'gate', 'farm', 'pink', 'bone', 'band', 'sand', 'snow', 'unit',
+        'best', 'gift', 'bush', 'rate', 'move', 'also', 'town', 'free', 'lost', 'idea', 'gold', 'dish', 'grow', 'soft',
+        'ugly', 'race', 'mess', 'camp', 'tent', 'barn', 'cold', 'hot', 'date', 'cube', 'arch', 'lava', 'wave', 'eye',
+        'area', 'push', 'pull', 'dead', 'easy', 'wild', 'lock', 'tall', 'roof', 'heat', 'ride', 'rope', 'cool', 'risk',
+        'team', 'lips', 'cash', 'lick', 'luck', 'hold', 'stop', 'neck', 'fool', 'chin', 'soap', 'bang', 'mood', 'wall',
+        'coat', 'bowl', 'army', 'last', 'hole', 'pure', 'rule', 'flag', 'gear', 'soup', 'hill', 'sign', 'burn', 'data',
+        'gang', 'jazz', 'meal', 'lift', 'news', 'knee', 'cure', 'yell', 'comb', 'tank', 'nose', 'buzz', 'beer', 'bike',
+        'lake', 'pool', 'holy', 'mint', 'axe', 'gene', 'cost', 'cast', 'legs', 'each', 'fact', 'beef', 'task', 'tour',
+        'hook', 'show', 'dice', 'wine']
 
 medium = ['little', 'people', 'thing', 'listen', 'mother', 'bottle', 'nerve', 'alarm', 'mouse', 'travel', 'success',
           'fruit', 'wrong', 'guess', 'family', 'house', 'money', 'tonight', 'happy', 'pretty', 'three', 'honey',
@@ -24,7 +38,15 @@ medium = ['little', 'people', 'thing', 'listen', 'mother', 'bottle', 'nerve', 'a
           'equal', 'rustic', 'stable', 'satire', 'prison', 'pounce', 'pound', 'perch', 'pebble', 'quiver', 'nimble',
           'kettle', 'mural', 'locust', 'lilac', 'spoon', 'knife', 'jagged', 'hinge', 'graze', 'frugal', 'frail',
           'dress', 'evade', 'enact', 'embryo', 'embody', 'dummy', 'dimple', 'devout', 'crutch', 'exist', 'coffee',
-          'antler', 'rhyme', 'rhythm', 'stick', 'stuck', 'stack']
+          'antler', 'rhyme', 'rhythm', 'stick', 'stuck', 'stack', 'topple', 'thwart', 'thump', 'thumb', 'wrist',
+          'yearn', 'jigsaw', 'dilute', 'twitch', 'vocal', 'chord', 'string', 'dwarf', 'pedal', 'perky', 'savvy',
+          'revive', 'taunt', 'untrue', 'armour', 'dodgy', 'reflex', 'squid', 'cuddle', 'detour', 'giddy', 'lapse',
+          'prove', 'spawn', 'queen', 'crumb', 'elite', 'skill', 'dread', 'doodle', 'flashy', 'flash', 'plunge',
+          'static', 'banish', 'proxy', 'cloak', 'ending', 'excess', 'itchy', 'shady', 'ghost', 'badger', 'blend',
+          'crisp' 'crown', 'frown', 'hectic', 'expire', 'spade', 'squirt', 'viable', 'detain', 'flute', 'fluke',
+          'feisty', 'thorn', 'asthma', 'evolve', 'ferry', 'statue', 'atomic', 'cavity', 'magic', 'mystic', 'poorly',
+          'bleach', 'dusty', 'quaint', 'patio', 'thigh', 'alone', 'spiral', 'filter', 'loathe', 'place', 'paint',
+          'blaze', 'prize', 'assign', 'seven', 'eight', 'beach']
 
 hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'understand', 'platform', 'purchase',
         'publicity', 'brother', 'business', 'beautiful', 'tomorrow', 'important', 'daughter', 'different', 'marriage',
@@ -35,8 +57,11 @@ hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'unders
         'amenity', 'adverse', 'subtract', 'multiply', 'sunrise', 'spinach', 'underwear', 'dehumidifier', 'picture',
         'banana', 'regular', 'secluded', 'rhubarb', 'respite', 'abolish', 'rejoice', 'refrain', 'recline', 'abhorrent',
         'abnormality', 'synthesis', 'plunder', 'pensive', 'oblique', 'loquacious', 'recognition', 'grimace', 'glitter',
-        'glorify', 'ghastly', 'flicker', 'clutched', 'callous', 'blemish', 'augment', ]
+        'glorify', 'ghastly', 'flicker', 'clutched', 'callous', 'blemish', 'augment', 'wriggle', 'dolphin', 'recruit',
+        'seizure', 'upgrade', 'uncover', 'harmony', 'pyramid', 'bailiff', 'gallant', 'provoke', 'baptize', 'courier',
+        'virtual', 'cupcake', 'uncanny', 'condemn', 'cryptic', 'dentist', 'outrage', 'phantom', 'hygiene', 'vaccine',
+        'chateau', 'conjure', 'exploit', 'explode', 'valiant', 'talkative', 'cartoon', ]
 
-# print(len(easy))
-# print(len(medium))
-# print(len(hard))
+print(len(easy))
+print(len(medium))
+print(len(hard))

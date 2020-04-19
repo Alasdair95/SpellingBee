@@ -164,7 +164,7 @@ class IntentRequest:
             attempt_number = self.session_attributes['attempt_number'] + 1
             self.session_attributes['attempt_number'] = attempt_number
             letter_required = self.session_attributes[f'letter_{attempt_number}']
-            letter_given = slot_dict['value'].lower()
+            letter_given = slot_dict['value'].lower().replace('.', '')
 
             if letter_given == letter_required:
                 if attempt_number < len(self.session_attributes['word']):
@@ -231,6 +231,14 @@ class IntentRequest:
 
                 self.session_attributes['word'] = word.lower()
                 self.session_attributes['attempt_number'] = 0
+
+                keys_to_pop = []
+                for key in self.session_attributes.keys():
+                    if key.startswith('letter'):
+                        keys_to_pop.append(key)
+
+                for key in keys_to_pop:
+                    self.session_attributes.pop(key, None)
 
                 word_letter_list = [i for i in word]
                 count = 1
@@ -538,7 +546,7 @@ class ConnectionsResponse:
             self.session_attributes['user_item']['premium']['BOOL'] = True
             response_components = {
                 'output_speech': 'Thanks for buying premium, you now have access to all of the premium content. '
-                                 'Say: Alexa, set my name.',
+                                 'Say: Alexa, set my name as, and then say your name.',
                 'card': '',
                 'reprompt_text': 'Ask Alexa to describe the premium content.',
                 'should_end_session': False,
