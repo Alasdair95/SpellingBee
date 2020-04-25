@@ -344,11 +344,22 @@ class IntentRequest:
         return isp.buy_premium()
 
     def describe_premium_content(self):
+        if self.session_attributes['user_item']['premium']['BOOL']:
+            output_speech = 'Buying Premium gives you access to everything in this skill. '\
+                            'You can ask for word definitions and example sentences. '\
+                            'There is homework mode where you create your own list of words to spell.'\
+                            'Alexa will also remember your name as well as more functionality you can find on the '\
+                            'Spelling Bee skill page.'
+        else:
+            output_speech = 'Buying Premium gives you access to everything in this skill. '\
+                             'You can ask for word definitions and example sentences. '\
+                             'There is homework mode where you create your own list of words to spell.'\
+                             'Alexa will also remember your name as well as more functionality you can find on the '\
+                             'Spelling Bee skill page. '\
+                             'Tell Alexa you want to buy premium to get started.'\
+
         response_components = {
-            'output_speech': 'Buying Premium gives you access to everything in this skill. '
-                             'You can get definitions and example sentences for your word. '
-                             'You can play the 2 player mode. And Alexa will remember your name. '
-                             'Tell Alexa you want to buy premium to get started.',
+            'output_speech': output_speech,
             'card': '',
             'reprompt_text': 'Say Alexa, buy premium to get access to all of the premium content.',
             'should_end_session': False,
@@ -404,7 +415,8 @@ class IntentRequest:
         name = self.request['intent']['slots']['UserName']['value'].title()
 
         response_components = {
-            'output_speech': f'Ok {name}, I\'ll remember that for next time.',
+            'output_speech': f'Ok {name}, I\'ll remember that for next time. Ask Alexa to tell you about premium'
+                             f' or visit the Spelling Bee skill page to find out about all of the premium content.',
             'card': '',
             'reprompt_text': 'Pick easy, medium, or hard to get a word and keep spelling.',
             'should_end_session': False,

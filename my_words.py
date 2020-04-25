@@ -19,7 +19,7 @@ easy = ['cat', 'dog', 'feel', 'fast', 'slow', 'cup', 'fan', 'bark', 'tile', 'myt
         'coat', 'bowl', 'army', 'last', 'hole', 'pure', 'rule', 'flag', 'gear', 'soup', 'hill', 'sign', 'burn', 'data',
         'gang', 'jazz', 'meal', 'lift', 'news', 'knee', 'cure', 'yell', 'comb', 'tank', 'nose', 'buzz', 'beer', 'bike',
         'lake', 'pool', 'holy', 'mint', 'axe', 'gene', 'cost', 'cast', 'legs', 'each', 'fact', 'beef', 'task', 'tour',
-        'hook', 'show', 'dice', 'wine']
+        'hook', 'show', 'dice', 'wine', 'drum', 'box', 'mild', 'old', 'junk', 'dunk', 'clap', 'boy', 'girl']
 
 medium = ['little', 'people', 'thing', 'listen', 'mother', 'bottle', 'nerve', 'alarm', 'mouse', 'travel', 'success',
           'fruit', 'wrong', 'guess', 'family', 'house', 'money', 'tonight', 'happy', 'pretty', 'three', 'honey',
@@ -46,7 +46,18 @@ medium = ['little', 'people', 'thing', 'listen', 'mother', 'bottle', 'nerve', 'a
           'crisp' 'crown', 'frown', 'hectic', 'expire', 'spade', 'squirt', 'viable', 'detain', 'flute', 'fluke',
           'feisty', 'thorn', 'asthma', 'evolve', 'ferry', 'statue', 'atomic', 'cavity', 'magic', 'mystic', 'poorly',
           'bleach', 'dusty', 'quaint', 'patio', 'thigh', 'alone', 'spiral', 'filter', 'loathe', 'place', 'paint',
-          'blaze', 'prize', 'assign', 'seven', 'eight', 'beach']
+          'blaze', 'prize', 'assign', 'seven', 'eight', 'beach', 'quilt', 'retro', 'snatch', 'troll', 'flock',
+          'mellow', 'stray', 'bubbly', 'fiend', 'groove', 'matrix', 'martyr', 'pulse', 'amaze', 'poetic', 'cosmic',
+          'arcade', 'fence', 'oasis', 'orphan', 'annoy', 'clone', 'fierce', 'flare', 'point', 'brink', 'oddly', 'alias',
+          'aging', 'glitch', 'picky', 'regain', 'budge', 'inject', 'needle', 'merger', 'stale', 'viewer', 'weary',
+          'covert', 'chorus', 'bygone', 'lizard', 'puddle', 'rumour', 'audio', 'bypass', 'grill', 'arena', 'fiasco',
+          'limbo', 'karate', 'quarry', 'snake', 'spear', 'carve', 'critic', 'reset', 'retail', 'vague', 'magnet',
+          'mayhem', 'hiking', 'biopsy', 'hiking', 'bitten', 'floss', 'crunch', 'cramp', 'grieve', 'rabble', 'rubble',
+          'tuxedo', 'wedge', 'asylum', 'create', 'jungle', 'hustle', 'endure', 'greasy', 'gypsy', 'grind', 'skate',
+          'vanity', 'breath', 'depth', 'ledge', 'warmer', 'clamp', 'racket', 'please', 'subdue', 'staple', 'squint',
+          'sooth', 'slogan', 'sledge', 'savour', 'ripple', 'rotate', 'revolt', 'refuel', 'plough', 'peril', 'orchid',
+          'opaque', 'odour', 'novice', 'jolly', 'hurdle', 'hedge', 'funnel', 'flask', 'fibre', 'fable', 'exhale',
+          'exempt', 'edible', 'debit', 'crease', 'cipher', 'caress', 'aroma', 'twirl', 'affirm']
 
 hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'understand', 'platform', 'purchase',
         'publicity', 'brother', 'business', 'beautiful', 'tomorrow', 'important', 'daughter', 'different', 'marriage',
@@ -60,8 +71,15 @@ hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'unders
         'glorify', 'ghastly', 'flicker', 'clutched', 'callous', 'blemish', 'augment', 'wriggle', 'dolphin', 'recruit',
         'seizure', 'upgrade', 'uncover', 'harmony', 'pyramid', 'bailiff', 'gallant', 'provoke', 'baptize', 'courier',
         'virtual', 'cupcake', 'uncanny', 'condemn', 'cryptic', 'dentist', 'outrage', 'phantom', 'hygiene', 'vaccine',
-        'chateau', 'conjure', 'exploit', 'explode', 'valiant', 'talkative', 'cartoon', ]
+        'chateau', 'conjure', 'exploit', 'explode', 'valiant', 'talkative', 'cartoon', 'prophet', 'richest', 'baptism',
+        'segment', 'athlete', 'pompous', 'banquet', 'defence', 'devious', 'dungeon', 'acquire', 'leopard', 'penguin',
+        'villain', 'deluded', 'dislike', 'festive', 'vintage', 'vaguely', 'gorilla', 'torment', 'ongoing', 'drastic',
+        'preview', 'captive', 'idiotic', 'wrestle', 'fastest', 'overdue', 'autopsy', 'synonym', 'relapse', 'rectify',
+        'premium', 'procure', 'pollute', 'pollution', 'orchestra', 'noxious', 'giraffe', 'endorse', 'evasion',
+        'endorse', 'dynasty', 'drought', 'defrost', 'default', 'consume', 'compose', 'bonfire', 'bludgeon', 'anatomy',
+        'thought', 'junction', 'tedious', 'insufficient', 'unequal', 'inseparable', 'vibrate']
 
-print(len(easy))
-print(len(medium))
-print(len(hard))
+print('Easy:\t', len(easy))
+print('Medium:\t', len(medium))
+print('Hard:\t', len(hard))
+print('Total:\t', len(easy)+len(medium)+len(hard))
