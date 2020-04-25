@@ -79,7 +79,7 @@ hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'unders
         'endorse', 'dynasty', 'drought', 'defrost', 'default', 'consume', 'compose', 'bonfire', 'bludgeon', 'anatomy',
         'thought', 'junction', 'tedious', 'insufficient', 'unequal', 'inseparable', 'vibrate']
 
-print('Easy:\t', len(easy))
-print('Medium:\t', len(medium))
-print('Hard:\t', len(hard))
-print('Total:\t', len(easy)+len(medium)+len(hard))
+# print('Easy:\t', len(easy))
+# print('Medium:\t', len(medium))
+# print('Hard:\t', len(hard))
+# print('Total:\t', len(easy)+len(medium)+len(hard))
