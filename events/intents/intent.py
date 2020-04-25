@@ -395,7 +395,9 @@ class IntentRequest:
         self.session_attributes['user_item'] = user_item
         personal_best = user_item['personalBest']['N']
 
-        if personal_best != '1':
+        if personal_best == '0':
+            output_speech = 'You don\'t have a record yet. Say easy, medium or hard to get a word to spell.'
+        elif personal_best > '1':
             output_speech = f'Your personal best is spelling {personal_best} words in a row.'
         else:
             output_speech = f'Your personal best is spelling {personal_best} word correctly.'
