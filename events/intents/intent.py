@@ -319,7 +319,7 @@ class IntentRequest:
             'output_speech': 'Say easy, medium, or hard, to pick the level of difficulty and get a new word.',
             'card': '',
             'reprompt_text': 'Say easy, medium, or hard, to pick the level of difficulty and get a new word.',
-            'should_end_session': True,
+            'should_end_session': False,
             'session_attributes': self.session_attributes
         }
         return Response(response_components).build_response()
