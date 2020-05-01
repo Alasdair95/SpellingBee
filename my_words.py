@@ -57,7 +57,7 @@ medium = ['little', 'people', 'thing', 'listen', 'mother', 'bottle', 'nerve', 'a
           'vanity', 'breath', 'depth', 'ledge', 'warmer', 'clamp', 'racket', 'please', 'subdue', 'staple', 'squint',
           'sooth', 'slogan', 'sledge', 'savour', 'ripple', 'rotate', 'revolt', 'refuel', 'plough', 'peril', 'orchid',
           'opaque', 'odour', 'novice', 'jolly', 'hurdle', 'hedge', 'funnel', 'flask', 'fibre', 'fable', 'exhale',
-          'exempt', 'edible', 'debit', 'crease', 'cipher', 'caress', 'aroma', 'twirl', 'affirm']
+          'exempt', 'edible', 'debit', 'crease', 'cipher', 'caress', 'aroma', 'twirl', 'affirm', 'animal']
 
 hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'understand', 'platform', 'purchase',
         'publicity', 'brother', 'business', 'beautiful', 'tomorrow', 'important', 'daughter', 'different', 'marriage',
@@ -77,7 +77,14 @@ hard = ['hospital', 'remember', 'difficult', 'children', 'relationship', 'unders
         'preview', 'captive', 'idiotic', 'wrestle', 'fastest', 'overdue', 'autopsy', 'synonym', 'relapse', 'rectify',
         'premium', 'procure', 'pollute', 'pollution', 'orchestra', 'noxious', 'giraffe', 'endorse', 'evasion',
         'endorse', 'dynasty', 'drought', 'defrost', 'default', 'consume', 'compose', 'bonfire', 'bludgeon', 'anatomy',
-        'thought', 'junction', 'tedious', 'insufficient', 'unequal', 'inseparable', 'vibrate']
+        'thought', 'junction', 'tedious', 'insufficient', 'unequal', 'inseparable', 'vibrate', 'inclination',
+        'competition', 'conscience', 'invitation', 'influence', 'presence', 'education', 'location', 'necessarily',
+        'particularly', 'carefully', 'intention', 'imagination', 'authority', 'fascinating', 'literally', 'underneath',
+        'identity', 'differently', 'biological', 'reception', 'sergeant', 'international', 'creature', 'pleasant',
+        'permanent', 'financial', 'unconscious', 'mysterious', 'searching', 'underground', 'adventure', 'overnight',
+        'meanwhile', 'therefore', 'confident', 'perspective', 'designer', 'punishment', 'disappoint', 'jewellery',
+        'compliment', 'application', 'elephant', 'pronounce', 'academic', 'acceptable', 'accommodation', 'achievement',
+        'adequate', 'advertisement', 'agriculture', 'catalogue', 'characteristic', 'chemistry', 'colleague']
 
 # print('Easy:\t', len(easy))
 # print('Medium:\t', len(medium))

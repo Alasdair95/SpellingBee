@@ -346,17 +346,19 @@ class IntentRequest:
     def describe_premium_content(self):
         if self.session_attributes['user_item']['premium']['BOOL']:
             output_speech = 'Buying Premium gives you access to everything in this skill. '\
-                            'You can ask for word definitions and example sentences. '\
-                            'There is homework mode where you create your own list of words to spell.'\
-                            'Alexa will also remember your name as well as more functionality you can find on the '\
-                            'Spelling Bee skill page.'
+                            'Firstly, Alexa will remember your name to make the skill a bit more personal. '\
+                            'You can ask for word definitions, example sentences and for the type of the word. '\
+                            'Alexa will track how many words you get right in a row so you can ask for your record. '\
+                            'There is also homework mode where you create your own list of words to spell. '\
+                            'Ask Alexa to tell you more about homework mode.'
         else:
             output_speech = 'Buying Premium gives you access to everything in this skill. '\
-                             'You can ask for word definitions and example sentences. '\
-                             'There is homework mode where you create your own list of words to spell.'\
-                             'Alexa will also remember your name as well as more functionality you can find on the '\
-                             'Spelling Bee skill page. '\
-                             'Tell Alexa you want to buy premium to get started.'\
+                            'Firstly, Alexa will remember your name to make the skill a bit more personal. '\
+                            'You can ask for word definitions, example sentences and for the type of the word. '\
+                            'Alexa will track how many words you get right in a row so you can ask for your record. '\
+                            'There is also homework mode where you create your own list of words to spell. '\
+                            'Ask Alexa to tell you more about homework mode. '\
+                            'Tell Alexa you want to buy premium to get started.'
 
         response_components = {
             'output_speech': output_speech,
@@ -366,6 +368,29 @@ class IntentRequest:
             'session_attributes': self.session_attributes
         }
         return Response(response_components).build_response()
+
+    def describe_homework_mode(self):
+        if self.session_attributes['user_item']['premium']['BOOL']:
+            output_speech = 'If you have premium you can add words to your personal list at any time. '\
+                            'For example: to add the word: book, to your list say: Add book to my list. '\
+                            'You activate homework mode by saying: activate homework mode. When homework mode\
+                             is activated Alexa will only give you words from your list. '\
+                            'To go back to the normal spelling bee skill you need to say: deactivate homework mode. '\
+                            'You can clear your list at any time by saying: empty my list.'
+        else:
+            output_speech = 'With homework mode you can add your own words to a list and Alexa will only give' \
+                            ' you those words to spell. ' \
+                            'Tell Alexa you want to buy premium to get started.'
+
+        response_components = {
+            'output_speech': output_speech,
+            'card': '',
+            'reprompt_text': None,
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
 
     def cancel_subscription(self):
         isp = InSkillPurchasing(self.context, self.request, self.session_attributes)
