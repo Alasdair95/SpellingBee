@@ -392,7 +392,6 @@ class IntentRequest:
         }
         return Response(response_components).build_response()
 
-
     def cancel_subscription(self):
         isp = InSkillPurchasing(self.context, self.request, self.session_attributes)
         return isp.cancel_subscription()
