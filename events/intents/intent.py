@@ -65,7 +65,8 @@ class IntentRequest:
             'deactivateHomeworkMode': (self.deactivate_homework_mode, True),
             'addHomeworkWord': (self.add_homework_word, True),
             'clearHomeworkList': (self.clear_homework_list, True),
-            'listHomeworkWords': (self.list_homework_words, True)
+            'listHomeworkWords': (self.list_homework_words, True),
+            'describeHomeworkMode': (self.describe_homework_mode, False)
         }
 
     def return_response(self):
