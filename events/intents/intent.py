@@ -612,6 +612,16 @@ class ConnectionsResponse:
             'user_item': user_item
         }
 
+    def handle_bad_request(self):
+        response_components = {
+            'output_speech': 'Sorry, could you repeat that please?',
+            'card': '',
+            'reprompt_text': 'Sorry, could you repeat that please?',
+            'should_end_session': False,
+            'session_attributes': self.session_attributes
+        }
+        return Response(response_components).build_response()
+
     def get_welcome_back_response(self):
         if self.request['name'] == 'Buy':
             if self.request['payload']['purchaseResult'] == 'ACCEPTED':
@@ -627,7 +637,7 @@ class ConnectionsResponse:
                     'session_attributes': self.session_attributes
                 }
                 return Response(response_components).build_response()
-            else:
+            elif self.request['payload']['purchaseResult'] == 'DECLINED':
                 response_components = {
                     'output_speech': 'Ok, you can buy premium in the future at any time.'
                                      'Say easy, medium, or hard to get a word and start spelling.',
@@ -637,6 +647,17 @@ class ConnectionsResponse:
                     'session_attributes': self.session_attributes
                 }
                 return Response(response_components).build_response()
+            elif self.request['payload']['purchaseResult'] == 'ALREADY_PURCHASED':
+                response_components = {
+                    'output_speech': 'Ask Alexa to tell you about premium.',
+                    'card': '',
+                    'reprompt_text': 'Ask Alexa to tell you about premium.',
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
+            else:
+                return self.handle_bad_request()
         else:
             storage = Storage(self.context, self.request)
             storage.remove_access_to_premium()
