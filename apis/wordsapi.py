@@ -25,9 +25,20 @@ class WordsApi:
             definition = definitions[random.randint(0, len(definitions)-1)]['definition']
 
             response_components = {
-                'output_speech': f"One definition for the word {self.session_attributes['word']} is: {definition}.",
+                'output_speech': f"One definition for the word {self.session_attributes['word']} is: {definition}. "
+                                 f"Keep trying to spell your word, or try asking for an example sentence.",
                 'card': '',
-                'reprompt_text': None,
+                'reprompt_text': 'Keep trying to spell your word, or try asking for an example sentence.',
+                'should_end_session': False,
+                'session_attributes': self.session_attributes
+            }
+            return Response(response_components).build_response()
+        else:
+            response_components = {
+                'output_speech': 'I\'m sorry but I don\'t have a definition for this word. '
+                                 'Keep trying to spell your word, or try asking for an example sentence.',
+                'card': '',
+                'reprompt_text': 'Keep trying to spell your word, or try asking for an example sentence.',
                 'should_end_session': False,
                 'session_attributes': self.session_attributes
             }
@@ -42,9 +53,20 @@ class WordsApi:
             example = example_sentences[random.randint(0, len(example_sentences)-1)]
 
             response_components = {
-                'output_speech': f"Here's your example sentence: {example}.",
+                'output_speech': f"Here's your example sentence: {example}. "
+                                 f"Keep trying to spell your word, or try asking what type of word it is.",
                 'card': '',
-                'reprompt_text': None,
+                'reprompt_text': 'Keep trying to spell your word, or try asking what type of word it is.',
+                'should_end_session': False,
+                'session_attributes': self.session_attributes
+            }
+            return Response(response_components).build_response()
+        else:
+            response_components = {
+                'output_speech': 'I\'m very sorry but I don\'t have an example for this word.'
+                'Keep trying to spell your word, or try asking what type of word it is.',
+                'card': '',
+                'reprompt_text': 'Keep trying to spell your word, or try asking what type of word it is.',
                 'should_end_session': False,
                 'session_attributes': self.session_attributes
             }
@@ -57,23 +79,27 @@ class WordsApi:
 
         if len(word_types) == 1:
             if word_types[0][0] not in ['a', 'e', 'i', 'o', 'u']:
-                output_speech = f"The word {self.session_attributes['word']} is a {word_types[0]}."
+                output_speech = f"The word {self.session_attributes['word']} is a {word_types[0]}. " \
+                                f"Keep trying to spell your word, or try asking for the definition of the word."
             else:
-                output_speech = f"The word {self.session_attributes['word']} is an {word_types[0]}."
+                output_speech = f"The word {self.session_attributes['word']} is an {word_types[0]}. " \
+                                f"Keep trying to spell your word, or try asking for the definition of the word."
         else:
             if word_types[-1][0] not in ['a', 'e', 'i', 'o', 'u']:
                 word_types[-1] = 'or a '+word_types[-1]
                 types_str = ', '.join(word_types)
-                output_speech = f"The word {self.session_attributes['word']} can be a {types_str}."
+                output_speech = f"The word {self.session_attributes['word']} can be a {types_str}. " \
+                                f"Keep trying to spell your word, or try asking for the definition of the word."
             else:
                 word_types[-1] = 'or an ' + word_types[-1]
                 types_str = ', '.join(word_types)
-                output_speech = f"The word {self.session_attributes['word']} can be a {types_str}."
+                output_speech = f"The word {self.session_attributes['word']} can be a {types_str}. " \
+                                f"Keep trying to spell your word, or try asking for the definition of the word."
 
         response_components = {
             'output_speech': output_speech,
             'card': '',
-            'reprompt_text': None,
+            'reprompt_text': 'Keep trying to spell your word, or try asking for the definition of the word.',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }

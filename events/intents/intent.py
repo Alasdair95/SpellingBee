@@ -399,10 +399,11 @@ class IntentRequest:
     def is_user_premium(self):
         try:
             if self.session_attributes['user_item']['premium']['BOOL']:
-                output_speech = 'Yes, you are a premium user.'
+                output_speech = 'Yes, you are a premium user. Ask alexa to tell you about premium to find out what ' \
+                                'you can do. Or say easy, medium, or hard to get a new word to spell.'
             else:
                 output_speech = 'No, you\'re not a premium user. Ask Alexa to buy premium to get started.'
-        except Exception:
+        except Exception as e:
             output_speech = 'No, you\'re not a premium user. Ask Alexa to buy premium to get started.'
 
         response_components = {
@@ -423,9 +424,11 @@ class IntentRequest:
         if personal_best == '0':
             output_speech = 'You don\'t have a record yet. Say easy, medium or hard to get a word to spell.'
         elif personal_best > '1':
-            output_speech = f'Your personal best is spelling {personal_best} words in a row.'
+            output_speech = f'Your personal best is spelling {personal_best} words in a row.' \
+                            f' Say easy, medium, or hard to get a new word.'
         else:
-            output_speech = f'Your personal best is spelling {personal_best} word correctly.'
+            output_speech = f'Your personal best is spelling {personal_best} word correctly.' \
+                            f'Say easy, medium, or hard to get a new word.'
 
         response_components = {
             'output_speech': output_speech,
@@ -455,10 +458,10 @@ class IntentRequest:
         if 'word' in self.session_attributes.keys():
             word = self.session_attributes['word']
 
-            response_list = [f'Your word is: {word}',
-                             f'Your current word is: {word}',
-                             f'Your current word to spell is: {word}',
-                             f'Your word to spell is: {word}']
+            response_list = [f'Your word is: {word}. Keep trying to spell it.',
+                             f'Your current word is: {word}. Keep trying to spell it.',
+                             f'Your current word to spell is: {word}. Keep trying to spell it.',
+                             f'Your word to spell is: {word}. Keep trying to spell it.']
 
             output_speech = response_list[random.randint(0, len(response_list) - 1)]
 
@@ -518,18 +521,46 @@ class IntentRequest:
         else:
             new_word = slot_dict['value'].lower()
             homework_list = self.session_attributes['user_item']['homeworkList']['L']
-            homework_list.append({'S': new_word})
-            storage = Storage(self.context, self.request)
-            storage.add_homework_word(homework_list)
 
-            response_components = {
-                'output_speech': f'I\'ve added the word: {new_word} to your homework list.',
-                'card': '',
-                'reprompt_text': None,
-                'should_end_session': False,
-                'session_attributes': self.session_attributes
-            }
-            return Response(response_components).build_response()
+            if new_word not in homework_list:
+                homework_list.append({'S': new_word})
+                storage = Storage(self.context, self.request)
+                storage.add_homework_word(homework_list)
+
+                if self.session_attributes['mode'] == 'regular':
+                    output_speech = f'I\'ve added the word: {new_word}, to your homework list.' \
+                                    f'Add another word or say: activate homework mode to get a word from your list.'
+                else:
+                    output_speech = f'I\'ve added the word: {new_word}, to your homework list.' \
+                                    f'Add another word or ask Alexa to give you a word to spell.'
+
+                response_components = {
+                    'output_speech': output_speech,
+                    'card': '',
+                    'reprompt_text': None,
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
+            else:
+                if self.session_attributes['mode'] == 'regular':
+                    output_speech = 'You already have that word in your list. ' \
+                                    'You can only add new words to your list. ' \
+                                    'Try adding another word or say: activate homework mode to get a word ' \
+                                    'from your list.'
+                else:
+                    output_speech = 'You already have that word in your list. ' \
+                                    'You can only add new words to your list. ' \
+                                    'Add another word or ask Alexa to give you a word to spell.'
+
+                response_components = {
+                    'output_speech': output_speech,
+                    'card': '',
+                    'reprompt_text': None,
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
 
     def clear_homework_list(self):
         homework_list = []
@@ -537,7 +568,8 @@ class IntentRequest:
         storage.add_homework_word(homework_list)
 
         response_components = {
-            'output_speech': 'I\'ve emptied your homework list. You can now start adding new words to it again.',
+            'output_speech': 'I\'ve emptied your homework list. Start adding new words to it again. '
+                             'Or ask Alexa to give you a word to spell.',
             'card': '',
             'reprompt_text': 'Pick easy, medium, or hard to get a word and start spelling again.',
             'should_end_session': False,
@@ -554,9 +586,11 @@ class IntentRequest:
             output_speech = 'You don\'t have any words in your homework list yet. ' \
                             'Say Alexa, add word to my homework list.'
         elif len(homework_list) == 1:
-            output_speech = f'Your homework list has the word {words_string.replace("and", "").strip()} in it.'
+            output_speech = f'Your homework list has the word {words_string.replace("and", "").strip()} in it. ' \
+                            f'Try adding another word to your list.'
         else:
-            output_speech = f'Your homework list has these words: {words_string}'
+            output_speech = f'Your homework list has these words: {words_string}. ' \
+                            f'Try adding a new word to your list.'
 
         response_components = {
             'output_speech': output_speech,
@@ -580,18 +614,29 @@ class ConnectionsResponse:
 
     def get_welcome_back_response(self):
         if self.request['name'] == 'Buy':
-            storage = Storage(self.context, self.request)
-            storage.update_user_to_premium()
-            self.session_attributes['user_item']['premium']['BOOL'] = True
-            response_components = {
-                'output_speech': 'Thanks for buying premium, you now have access to all of the premium content. '
-                                 'Say: Alexa, set my name as, and then say your name.',
-                'card': '',
-                'reprompt_text': 'Ask Alexa to describe the premium content.',
-                'should_end_session': False,
-                'session_attributes': self.session_attributes
-            }
-            return Response(response_components).build_response()
+            if self.request['payload']['purchaseResult'] == 'ACCEPTED':
+                storage = Storage(self.context, self.request)
+                storage.update_user_to_premium()
+                self.session_attributes['user_item']['premium']['BOOL'] = True
+                response_components = {
+                    'output_speech': 'Thanks for buying premium, you now have access to all of the premium content. '
+                                     'Say: Alexa, set my name as, and then say your name.',
+                    'card': '',
+                    'reprompt_text': 'Ask Alexa to describe the premium content.',
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
+            else:
+                response_components = {
+                    'output_speech': 'Ok, you can buy premium in the future at any time.'
+                                     'Say easy, medium, or hard to get a word and start spelling.',
+                    'card': '',
+                    'reprompt_text': 'Say easy, medium, or hard to get a word and start spelling.',
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
         else:
             storage = Storage(self.context, self.request)
             storage.remove_access_to_premium()
@@ -599,7 +644,7 @@ class ConnectionsResponse:
             response_components = {
                 'output_speech': 'Say easy, medium, or hard to get a word and start spelling',
                 'card': '',
-                'reprompt_text': 'Ask Alexa to describe the premium content.',
+                'reprompt_text': 'Say easy, medium, or hard to get a word and start spelling.',
                 'should_end_session': False,
                 'session_attributes': self.session_attributes
             }

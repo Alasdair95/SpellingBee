@@ -26,10 +26,12 @@ class InSkillPurchasing:
         product_description = response['inSkillProducts'][0]['summary']
         response_components = {
             'output_speech': f'You can buy {product_name}. It is a {product_type} purchase'
-                             f' with the description: {product_description}',
+                             f' with the description: {product_description}.'
+                             f' Ask Alexa to tell you about premium to find out more.',
             'card': '',
             'reprompt_text': f'You can buy {product_name}. It is a {product_type} purchase'
-                             f' with the description: {product_description}',
+                             f' with the description: {product_description}'
+                             f' Ask Alexa to tell you about premium to find out more.',
             'should_end_session': False,
             'session_attributes': self.session_attributes
         }
