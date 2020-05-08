@@ -94,13 +94,44 @@ class Response:
               ]
         }
 
+    def _send_upsell_message(self):
+        return {
+            'outputSpeech': {
+                'type': 'PlainText',
+                'text': self.output_speech
+            },
+            'reprompt': {
+                'outputSpeech': {
+                    'type': 'PlainText',
+                    'text': self.reprompt_text
+                }
+            },
+            'shouldEndSession': self.should_end_session,
+            "directives": [
+                {
+                    "type": "Connections.SendRequest",
+                    "name": "Upsell",
+                    "payload": {
+                        "InSkillProduct": {
+                            "productId": self.response_components['product_id']
+                        },
+                        "upsellMessage": 'I\'m sorry but that\'s premium content. Would you like to learn more about '
+                                         'premium?'
+                    },
+                    "token": "correlationToken"
+                }
+            ]
+        }
+
     # Builds response and sends it back to Alexa
     def build_response(self):
         if 'product_id' in self.response_components.keys():
             if self.response_components['directive'] == 'buy':
                 response = self._send_buy_directive()
-            else:
+            elif self.response_components['directive'] == 'cancel':
                 response = self._send_cancel_directive()
+            else:
+                response = self._send_upsell_message()
         elif self.session_attributes['output_type'] == 'speech':
             response = self._build_speech_response()
         elif self.session_attributes['output_type'] == 'audio':

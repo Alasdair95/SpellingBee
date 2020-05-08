@@ -60,3 +60,15 @@ class InSkillPurchasing:
             'directive': 'cancel'
         }
         return Response(response_components).build_response()
+
+    def upsell(self):
+        response_components = {
+            'output_speech': None,
+            'card': '',
+            'reprompt_text': None,
+            'should_end_session': True,
+            'session_attributes': self.session_attributes,
+            'product_id': self.premium_product_id,
+            'directive': 'upsell'
+        }
+        return Response(response_components).build_response()

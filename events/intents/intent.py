@@ -81,15 +81,19 @@ class IntentRequest:
                     print(e)
                     return self.handle_bad_request()
             else:
-                response_components = {
-                    'output_speech': 'That is a premium function. Ask Alexa about what you can buy in this skill'
-                                     ' to find out more.',
-                    'card': '',
-                    'reprompt_text': 'Say Alexa, what can I buy',
-                    'should_end_session': False,
-                    'session_attributes': self.session_attributes
-                }
-                return Response(response_components).build_response()
+                print('hey')
+                isp = InSkillPurchasing(self.context, self.request, self.session_attributes)
+                return isp.upsell()
+                # else:
+                # response_components = {
+                #     'output_speech': 'That is a premium function. Ask Alexa about what you can buy in this skill'
+                #                      ' to find out more.',
+                #     'card': '',
+                #     'reprompt_text': 'Say Alexa, what can I buy',
+                #     'should_end_session': False,
+                #     'session_attributes': self.session_attributes
+                # }
+                # return Response(response_components).build_response()
         else:
             try:
                 return method_tuple[0]()
@@ -133,6 +137,7 @@ class IntentRequest:
             self.session_attributes['difficulty_level'] = difficulty_level
             self.session_attributes['word'] = word.lower()
             self.session_attributes['attempt_number'] = 0
+            self.session_attributes['num_correct_in_row'] = 0
 
             word_letter_list = [i for i in word]
             count = 1
@@ -218,9 +223,12 @@ class IntentRequest:
         if not slot_dict:
             self.handle_bad_request()
         else:
-            slot_value = slot_dict['resolutions']['resolutionsPerAuthority'][0]['values'][0]['value']['name']
+            if 'resolutions' in slot_dict.keys():
+                slot_value = slot_dict['resolutions']['resolutionsPerAuthority'][0]['values'][0]['value']['name']
+            else:
+                slot_value = 'new_word'
 
-            if slot_value == 'yes':
+            if slot_value in ['yes', 'new_word']:
                 if self.session_attributes['difficulty_level'] == 'easy':
                     word_list = easy
                 elif self.session_attributes['difficulty_level'] == 'medium':
@@ -265,6 +273,7 @@ class IntentRequest:
                 return Response(response_components).build_response()
             else:
                 return self.end_session()
+
 
     def get_word_definition(self):
         if 'word' in self.session_attributes.keys():
@@ -639,8 +648,41 @@ class ConnectionsResponse:
                 return Response(response_components).build_response()
             elif self.request['payload']['purchaseResult'] == 'DECLINED':
                 response_components = {
-                    'output_speech': 'Ok, you can buy premium in the future at any time.'
-                                     'Say easy, medium, or hard to get a word and start spelling.',
+                    'output_speech': 'Say easy, medium, or hard to get a word and start spelling.',
+                    'card': '',
+                    'reprompt_text': 'Say easy, medium, or hard to get a word and start spelling.',
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
+            elif self.request['payload']['purchaseResult'] == 'ALREADY_PURCHASED':
+                response_components = {
+                    'output_speech': 'Ask Alexa to tell you about premium.',
+                    'card': '',
+                    'reprompt_text': 'Ask Alexa to tell you about premium.',
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
+            else:
+                return self.handle_bad_request()
+        elif self.request['name'] == 'Upsell':
+            if self.request['payload']['purchaseResult'] == 'ACCEPTED':
+                storage = Storage(self.context, self.request)
+                storage.update_user_to_premium()
+                self.session_attributes['user_item']['premium']['BOOL'] = True
+                response_components = {
+                    'output_speech': 'Thanks for buying premium, you now have access to all of the premium content. '
+                                     'Say: Alexa, set my name as, and then say your name.',
+                    'card': '',
+                    'reprompt_text': 'Ask Alexa to describe the premium content.',
+                    'should_end_session': False,
+                    'session_attributes': self.session_attributes
+                }
+                return Response(response_components).build_response()
+            elif self.request['payload']['purchaseResult'] == 'DECLINED':
+                response_components = {
+                    'output_speech': 'Say easy, medium, or hard to get a word and start spelling.',
                     'card': '',
                     'reprompt_text': 'Say easy, medium, or hard to get a word and start spelling.',
                     'should_end_session': False,

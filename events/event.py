@@ -36,7 +36,9 @@ class Event:
             return IntentRequest(self.request, self.session, self.context).return_response()
         elif self.request['type'] == 'Connections.Response':
             user_item = self.get_user_item_from_dynamodb()
-            self.update_user_to_premium()
+            if self.request['name'] in ['Buy', 'Upsell']:
+                if self.request['payload']['purchaseResult'] == 'ACCEPTED':
+                    self.update_user_to_premium()
             return ConnectionsResponse(self.request, user_item, self.context, self.session).get_welcome_back_response()
         else:
             return IntentRequest(self.request, self.session, self.context).handle_bad_request()
