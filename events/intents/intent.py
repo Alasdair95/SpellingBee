@@ -137,7 +137,8 @@ class IntentRequest:
             self.session_attributes['difficulty_level'] = difficulty_level
             self.session_attributes['word'] = word.lower()
             self.session_attributes['attempt_number'] = 0
-            self.session_attributes['num_correct_in_row'] = 0
+            if 'num_correct_in_row' not in self.session_attributes.keys():
+                self.session_attributes['num_correct_in_row'] = 0
 
             word_letter_list = [i for i in word]
             count = 1
