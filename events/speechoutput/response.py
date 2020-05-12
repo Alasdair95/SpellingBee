@@ -115,8 +115,10 @@ class Response:
                         "InSkillProduct": {
                             "productId": self.response_components['product_id']
                         },
-                        "upsellMessage": 'I\'m sorry but that\'s premium content. Would you like to learn more about '
-                                         'premium?'
+                        "upsellMessage": 'I\'m sorry but that\'s premium content. '
+                                         'Premium content lets you ask for word definition, example sentences'
+                                         ' and much more. You can also create create your own list of words to spell. '
+                                         'Would you like to learn more about premium?'
                     },
                     "token": "correlationToken"
                 }
