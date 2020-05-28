@@ -327,7 +327,8 @@ class IntentRequest:
     def help_request(self):
         self.session_attributes['output_type'] = 'speech'
         response_components = {
-            'output_speech': 'Say easy, medium, or hard, to pick the level of difficulty and get a new word.',
+            'output_speech': 'To subscribe for the premium content you can say, what can I buy.'
+                             'Or say easy, medium, or hard, to pick the level of difficulty and get a new word.',
             'card': '',
             'reprompt_text': 'Say easy, medium, or hard, to pick the level of difficulty and get a new word.',
             'should_end_session': False,
